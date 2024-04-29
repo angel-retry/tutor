@@ -8,8 +8,8 @@ module.exports = {
     const getHashPassword = await bcrypt.hash('123456', 10)
 
     const users = Array.from({ length: 15 }).map((_, index) => ({
-      name: `user-${index}`,
-      email: `user-${index}@example.com`,
+      name: `user-${index + 1}`,
+      email: `user-${index + 1}@example.com`,
       password: getHashPassword,
       nation: faker.location.country(),
       avatar: faker.image.avatar(),
