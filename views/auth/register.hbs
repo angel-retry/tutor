@@ -1,0 +1,35 @@
+<div class="container d-flex flex-column justify-content-center mt-5">
+  <h2 class="text-center fw-bold mb-5">Sign Up</h2>
+
+  <form action="/signup" method="post" class="d-flex flex-column align-items-center gap-4 needs-validation" novalidate>
+    <div class="col-12 col-md-6">
+      <input type="text" class="form-control py-2" id="name" name="name" placeholder="Name" required>
+      <div class="invalid-feedback">
+        請輸入姓名!
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <input type="email" class="form-control py-2" id="email" name="email" placeholder="Email" required>
+      <div class="invalid-feedback">
+        請輸入信箱!
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <input type="password" class="form-control py-2" id="password" name="password" placeholder="Password" required>
+      <div class="invalid-feedback">
+        請輸入密碼!
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <input type="password" class="form-control py-2" id="confirmPassword" name="confirmPassword"
+        placeholder="Confirm Password" required>
+      <div class="invalid-feedback">
+        請輸入確認密碼!
+      </div>
+    </div>
+    <button class="btn btn-primary col-md-2 col-12 py-3">Summit</button>
+    <form action="" method="post">
+      <a href="/auth/google" class="btn text-primary fw-bold">Or Sign in with Google</a>
+    </form>
+  </form>
+</div>
