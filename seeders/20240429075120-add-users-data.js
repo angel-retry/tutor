@@ -5,11 +5,11 @@ const { faker } = require('@faker-js/faker')
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const getHashPassword = await bcrypt.hash('123456', 10)
+    const getHashPassword = await bcrypt.hash('12345678', 10)
 
     const users = Array.from({ length: 15 }).map((_, index) => ({
       name: `user-${index + 1}`,
-      email: `user-${index + 1}@example.com`,
+      email: `user${index + 1}@example.com`,
       password: getHashPassword,
       nation: faker.location.country(),
       avatar: faker.image.avatar(),

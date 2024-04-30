@@ -35,6 +35,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Ratings', null)
+    await queryInterface.bulkDelete('Ratings', null)
   }
 }
