@@ -24,11 +24,11 @@ module.exports = {
     for (let i = 0; i < 5; i++) {
       let randomIndex
       do {
-         randomIndex = Math.floor(Math.random() * users.length)
-      } while(randomIndexes.has(randomIndex))
+        randomIndex = Math.floor(Math.random() * users.length)
+      } while (randomIndexes.has(randomIndex))
 
       users[randomIndex].is_teacher = false
-      
+
       randomIndexes.add(randomIndex)
     }
 
