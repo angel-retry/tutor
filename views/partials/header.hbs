@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid" style="max-width: 1600px;">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+      <i class="fa-solid fa-ghost text-secondary"></i>
+      <h3 class="fw-bold text-secondary mb-0">Tutor</h3>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav gap-3 mb-3 mb-md-0">
+        {{#unless user}}
+        <li class="nav-item">
+          <a class="btn btn-outline-primary" href="/register" role="button">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-primary" href="/login" role="button">Sign In</a>
+        </li>
+        {{/unless}}
+      </ul>
+      {{#if user}}
+      <form action="/logout" method="post" class="ms-auto">
+        <button class="btn btn-outline-danger" type="submit">Log out</button>
+      </form>
+      {{/if}}
+    </div>
+  </div>
+</nav>
