@@ -13,6 +13,7 @@ router.get('/home', (req, res) => {
 })
 
 router.get('/users/:id', userControllers.getUserPage)
+router.get('/users/:id/edit', userControllers.getUserEditPage)
 
 router.get('/teachers/create', teacherControllers.getTeacherCreatePage)
 
