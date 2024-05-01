@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid" style="max-width: 1600px;">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/home">
       <i class="fa-solid fa-ghost text-secondary"></i>
       <h3 class="fw-bold text-secondary mb-0">Tutor</h3>
     </a>
@@ -18,12 +18,16 @@
             <a class="btn btn-outline-primary" href="/login" role="button">Sign In</a>
           </li>
         {{else}}
-          <li class="nav-item">
-            <a class="nav-link " href="/login" role="button">{{user.name}}</a>
-          </li>
         {{#unless user.isTeacher}}
           <li class="nav-item">
+            <a class="nav-link " href="/users/:id" role="button">{{user.name}}</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link " href="/login" role="button">成為老師</a>
+          </li>
+          {{else}}
+          <li class="nav-item">
+            <a class="nav-link " href="/teachers/:id" role="button">{{user.name}}</a>
           </li>
         {{/unless}}
         {{/unless}}

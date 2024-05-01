@@ -1,11 +1,22 @@
 const express = require('express')
 const auth = require('./modules/auth')
 const errorHandlers = require('../middlewares/error-handlers')
+const userControllers = require('../controllers/user-controllers')
 const router = express.Router()
 
 router.use('', auth)
-router.get('/', (req, res) => {
+
+router.get('/home', (req, res) => {
   res.render('home')
+})
+
+router.get('/users/:id', userControllers.getUserPage)
+
+router.use('', (req, res, next) => {
+  const user = req.user
+  if (!user.isAdmin) {
+    return res.redirect('home')
+  }
 })
 
 router.use('', errorHandlers)
