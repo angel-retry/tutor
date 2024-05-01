@@ -59,7 +59,6 @@ passport.serializeUser((user, cb) => {
 })
 
 passport.deserializeUser((user, cb) => {
-  console.log('deserializeUser', user)
   if (user.isAdmin) {
     return Admin.findOne({ where: { email: user.email } })
       .then((admin) => {

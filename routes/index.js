@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.use('', auth)
 router.get('/', (req, res) => {
-  res.render('index')
+  res.render('home')
 })
 
 router.use('', errorHandlers)
