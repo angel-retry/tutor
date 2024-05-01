@@ -3,6 +3,7 @@ const auth = require('./modules/auth')
 const errorHandlers = require('../middlewares/error-handlers')
 const userControllers = require('../controllers/user-controllers')
 const teacherControllers = require('../controllers/teacher-controllers')
+const lessonControllers = require('../controllers/lesson-controllers')
 const router = express.Router()
 
 router.use('', auth)
@@ -15,10 +16,12 @@ router.get('/users/:id', userControllers.getUserPage)
 
 router.get('/teachers/create', teacherControllers.getTeacherCreatePage)
 
-router.use('', (req, res, next) => {
+router.get('/lessons/:id', lessonControllers.getLessonPage)
+
+router.use('/', (req, res, next) => {
   const user = req.user
   if (!user.isAdmin) {
-    return res.redirect('home')
+    return res.redirect('/home')
   }
 })
 
