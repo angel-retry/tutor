@@ -1,0 +1,74 @@
+<div class="container mt-5">
+  <h1 class="fw-bold mb-3">成為老師表單</h1>
+  <form action="/teachers/create" method="post" class="col-10 mb-5">
+    <div class="mb-3">
+      <label for="courseDescription" class="form-label fw-bold">Your introduction</label>
+      <textarea class="form-control" id="courseDescription" name="courseDescription" placeholder="介紹你的課程" rows="5"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="teachingMethod" class="form-label fw-bold">Your Teaching Style</label>
+      <textarea class="form-control" id="teachingMethod" name="teachingMethod" placeholder="介紹你的教學方式" rows="5"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="lessonDuration" class="form-label fw-bold">單堂課程時間 (分鐘)</label>
+      <select class="form-select" aria-label="Default select example" id="lessonDuration">
+        <option selected>請選擇時間</option>
+        <option value="30">30分鐘</option>
+        <option value="60">60分鐘</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold" >開放預約</label>
+      <div class="fw-bold d-flex flex-wrap gap-3 gap-md-5">
+        <div class="form-check">
+          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
+          <label class="form-check-label" for="flexCheckDefault">
+            Mon.
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
+          <label class="form-check-label" for="flexCheckDefault">
+            Tue.
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
+          <label class="form-check-label" for="flexCheckDefault">
+            Wed.
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
+          <label class="form-check-label" for="flexCheckDefault">
+            Thur.
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
+          <label class="form-check-label" for="flexCheckDefault">
+            Fri.
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
+          <label class="form-check-label" for="flexCheckDefault">
+            Sat.
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
+          <label class="form-check-label" for="flexCheckDefault">
+            Sun.
+          </label>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="">
+      <button type="submit" class="btn btn-primary px-4">Submit</button>
+    </div>
+  </form>
+
+</div>
