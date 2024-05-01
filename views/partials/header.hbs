@@ -11,12 +11,21 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav gap-3 mb-3 mb-md-0">
         {{#unless user}}
-        <li class="nav-item">
-          <a class="btn btn-outline-primary" href="/register" role="button">Sign Up</a>
-        </li>
-        <li class="nav-item">
-          <a class="btn btn-outline-primary" href="/login" role="button">Sign In</a>
-        </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-primary" href="/register" role="button">Sign Up</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-primary" href="/login" role="button">Sign In</a>
+          </li>
+        {{else}}
+          <li class="nav-item">
+            <a class="nav-link " href="/login" role="button">{{user.name}}</a>
+          </li>
+        {{#unless user.isTeacher}}
+          <li class="nav-item">
+            <a class="nav-link " href="/login" role="button">成為老師</a>
+          </li>
+        {{/unless}}
         {{/unless}}
       </ul>
       {{#if user}}
