@@ -10,27 +10,33 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav gap-3 mb-3 mb-md-0">
-        {{#unless user}}
+        {{#if user}}
+          {{#if user.isAdmin}}
+            <li class="nav-item">
+              <a class="nav-link" href="/admins" role="button">使用者清單</a>
+            </li>
+          {{else}}
+            {{#if user.isTeacher}}
+              <li class="nav-item">
+                <a class="nav-link" href="/teachers/:id" role="button">{{user.name}}</a>
+              </li>
+            {{else}}
+              <li class="nav-item">
+                <a class="nav-link" href="/users/:id" role="button">{{user.name}}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/teachers/create" role="button">成為老師</a>
+              </li>
+            {{/if}}
+          {{/if}}
+        {{else}}
           <li class="nav-item">
             <a class="btn btn-outline-primary" href="/register" role="button">Sign Up</a>
           </li>
           <li class="nav-item">
             <a class="btn btn-outline-primary" href="/login" role="button">Sign In</a>
           </li>
-        {{else}}
-        {{#unless user.isTeacher}}
-          <li class="nav-item">
-            <a class="nav-link " href="/users/:id" role="button">{{user.name}}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="/teachers/create" role="button">成為老師</a>
-          </li>
-          {{else}}
-          <li class="nav-item">
-            <a class="nav-link " href="/teachers/:id" role="button">{{user.name}}</a>
-          </li>
-        {{/unless}}
-        {{/unless}}
+        {{/if}}
       </ul>
       {{#if user}}
       <form action="/logout" method="post" class="ms-auto">
