@@ -2,6 +2,38 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const { User, Admin } = require('../models')
 const bcrypt = require('bcryptjs')
+const GoogleStrategy = require('passport-google-oauth2').Strategy
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_CALLBACK_URL
+}, (accessToken, refreshToken, profile, cb) => {
+  const email = profile.email
+  const name = profile.displayName
+  const avatar = profile.picture
+
+  User.findOne({ where: { email } })
+    .then(user => {
+      if (user) {
+        user.isAdmin = false
+        user.isTeacher = false
+        return cb(null, user)
+      }
+      const randomPwd = Math.random().toString(36).slice(-8)
+      return bcrypt.hash(randomPwd, 10)
+        .then(hashPassword => {
+          return User.create({ name, email, password: hashPassword, avatar })
+        })
+        .then(() => {
+          user.isAdmin = false
+          user.isTeacher = false
+          return cb(null, user)
+        })
+        .catch(err => cb(err))
+    })
+    .catch(err => cb(err))
+}))
 
 passport.use(new LocalStrategy({
   usernameField: 'email',

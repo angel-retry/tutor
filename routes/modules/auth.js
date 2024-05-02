@@ -13,6 +13,12 @@ router.post('/login', passport.authenticate('local', {
   return res.redirect('/')
 })
 
+router.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }))
+router.get('/auth/google/callback', passport.authenticate('google', {
+  successRedirect: '/home',
+  failureRedirect: '/login'
+}))
+
 router.post('/register', authControllers.postRegister)
 
 router.post('/logout', authControllers.postLogout)

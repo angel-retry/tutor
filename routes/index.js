@@ -25,10 +25,13 @@ router.get('/lessons/:id', lessonControllers.getLessonPage)
 
 router.use('/', (req, res, next) => {
   const user = req.user
-  if (!user.isAdmin) {
-    return res.redirect('/home')
+  if (user) {
+    if (!user.isAdmin) {
+      return res.redirect('/home')
+    }
+    return res.redirect('/admin')
   }
-  return res.redirect('/admin')
+  return res.redirect('/login')
 })
 
 router.use('', errorHandlers)
