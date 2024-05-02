@@ -1,6 +1,14 @@
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid" style="max-width: 1600px;">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="/home">
+    {{#if user}}
+      {{#if user.isAdmin}}
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/admin">
+      {{else}}
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/home">
+      {{/if}}
+    {{else}}
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/login">
+    {{/if}}
       <i class="fa-solid fa-ghost text-secondary"></i>
       <h3 class="fw-bold text-secondary mb-0">Tutor</h3>
     </a>
