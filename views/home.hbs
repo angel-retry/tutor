@@ -7,6 +7,7 @@
     </form>
 
     <div class="row">
+      {{#if teachers}}
       {{#each teachers as |teacher|}}
         <div class="col-sm-6 col-lg-4 mb-3">
           <a href="/lessons/{{teacher.id}}" class="text-decoration-none text-black">
@@ -32,28 +33,31 @@
           </a>
         </div>
       {{/each}}
-      <nav aria-label="Page navigation" class="d-flex justify-content-center mt-3">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="/home?page={{pagination.prevPage}}" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          {{#each pagination.pages}}
-          {{#ifCond this ../page}}
-          <li class="page-item active"><a class="page-link" href="/home?page={{this}}">{{this}}</a></li>
-          {{else}}
-          <li class="page-item"><a class="page-link" href="/home?page={{this}}">{{this}}</a></li>
-          {{/ifCond}}
-          {{/each}}
-          
-          <li class="page-item">
-            <a class="page-link" href="/home?page={{pagination.nextPage}}" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+        <nav aria-label="Page navigation" class="d-flex justify-content-center mt-3">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="/home?page={{pagination.prevPage}}&keyword={{keyword}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {{#each pagination.pages}}
+            {{#ifCond this ../page}}
+            <li class="page-item active"><a class="page-link" href="/home?page={{this}}&keyword={{../keyword}}">{{this}}</a></li>
+            {{else}}
+            <li class="page-item"><a class="page-link" href="/home?page={{this}}&keyword={{../keyword}}">{{this}}</a></li>
+            {{/ifCond}}
+            {{/each}}
+        
+            <li class="page-item">
+              <a class="page-link" href="/home?page={{pagination.nextPage}}&keyword={{keyword}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      {{else}}
+      <p class="text-center fw-bold fs-5">沒有查到相關資料!</p>
+      {{/if}}
     </div>
   </div>
 
