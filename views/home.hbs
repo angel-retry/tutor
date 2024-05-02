@@ -64,24 +64,23 @@
   <div class="col-md-4 col-lg-3">
     <div class="card">
       <div class="card-body">
-        <div class="d-flex justify-content-center">
+        <div class="d-flex">
           <h5 class="text-center fw-bold bg-primary text-white py-2 rounded-3 d-inline-flex px-2 mx-auto mb-3">學習時數總排行</h5>
         </div>
-        <div class="d-flex gap-4 align-items-center justify-content-center  mb-3">
-          <img src="https://via.placeholder.com/200x200" alt="" class="col-6 rounded-circle" style="height: 80px; width: 80px; object-fit:contain">
-          <div class="d-flex fs-5 fw-bold gap-2 flex-wrap">
-            <p class="mb-0">No.x</p>
-            <p class="mb-0">Name</p>
+        {{#each top10DurationTimeStudents}}
+        <div class="d-flex align-items-center justify-content-center mb-4 gap-4">
+          {{#if this.User.avatar}}
+          <img src="{{this.User.avatar}}" alt="{{this.User.name}}" class="col-6 rounded-circle"
+            style="height: 60px; width: 60px; object-fit:contain">
+          {{else}}
+          <img src="https://via.placeholder.com/200x200" alt="{{this.User.name}}" class="col-6 rounded-circle" style="height: 60px; width: 60px; object-fit:contain">
+          {{/if}}
+          <div class="d-flex gap-2 ">
+            <p class="mb-0">No. {{this.ranking}}</p>
+            <p class="mb-0">{{this.User.name}}</p>
           </div>
         </div>
-        <div class="d-flex gap-4 align-items-center justify-content-center">
-          <img src="https://via.placeholder.com/200x200" alt="" class="col-6 rounded-circle"
-            style="height: 80px; width: 80px; object-fit:contain">
-          <div class="d-flex fs-5 fw-bold gap-2 flex-wrap">
-            <p class="mb-0">No.x</p>
-            <p class="mb-0">Name</p>
-          </div>
-        </div>
+        {{/each}}
       </div>
     </div>
   </div>

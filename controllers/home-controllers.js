@@ -1,6 +1,7 @@
-const { Teacher, User } = require('../models')
+const { Teacher, User, Lesson, Sequelize } = require('../models')
 const { Op } = require('sequelize')
 const { getOffset, getPagination } = require('../helpers/pagination-helpers')
+const { now } = require('sequelize/lib/utils')
 
 const homeControllers = {
   getHomePage: (req, res, next) => {
@@ -18,16 +19,38 @@ const homeControllers = {
           ]
         }
       : {}
+    Promise.all([
+      Teacher.findAndCountAll({
+        include: [User],
+        where: searchCondition,
+        raw: true,
+        nest: true,
+        offset,
+        limit
+      }),
+      Lesson.findAll({
+        attributes: [
+          'student_id',
+          [
+            Sequelize.literal('SUM(TIMESTAMPDIFF(SECOND, start_time, end_time))'),
+            'totalDuration'
+          ]
+        ],
+        include: [User],
+        where: {
+          end_time: {
+            [Op.lt]: now
+          }
+        },
+        group: ['student_id'],
+        order: [[Sequelize.literal('totalDuration'), 'DESC']],
+        raw: true,
+        nest: true,
+        limit: 10
+      })
+    ])
 
-    Teacher.findAndCountAll({
-      include: [User],
-      where: searchCondition,
-      raw: true,
-      nest: true,
-      offset,
-      limit
-    })
-      .then(teachers => {
+      .then(([teachers, top10DurationTimeStudents]) => {
         console.log('teachers', teachers)
         const teachersData = teachers.rows.map(teacher => (
           {
@@ -35,7 +58,12 @@ const homeControllers = {
             courseDescription: teacher.courseDescription.length > 100 ? teacher.courseDescription.substring(0, 100) + '...' : teacher.courseDescription
           }
         ))
-        return res.render('home', { teachers: teachersData, page, pagination: getPagination(page, limit, teachers.count), keyword })
+        top10DurationTimeStudents = top10DurationTimeStudents.map((lesson, index) => ({
+          ...lesson,
+          ranking: index + 1
+        }))
+        console.log('top10DurationTimeStudents', top10DurationTimeStudents)
+        return res.render('home', { teachers: teachersData, page, pagination: getPagination(page, limit, teachers.count), keyword, top10DurationTimeStudents })
       })
       .catch(err => next(err))
   }
