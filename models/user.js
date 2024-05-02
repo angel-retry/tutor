@@ -30,8 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     avatar: DataTypes.STRING,
     nation: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING
     },
     introduction: DataTypes.TEXT,
     isTeacher: {
