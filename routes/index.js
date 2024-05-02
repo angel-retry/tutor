@@ -6,18 +6,18 @@ const userControllers = require('../controllers/user-controllers')
 const teacherControllers = require('../controllers/teacher-controllers')
 const lessonControllers = require('../controllers/lesson-controllers')
 const router = express.Router()
+const { userAuthenticated, studentAuthenticated } = require('../middlewares/auth-handlers')
+const homeControllers = require('../controllers/home-controllers')
 
 router.use('', auth)
 router.use('/admin', admin)
 
-router.get('/home', (req, res) => {
-  res.render('home')
-})
+router.get('/home', userAuthenticated, homeControllers.getHomePage)
 
 router.get('/users/:id', userControllers.getUserPage)
 router.get('/users/:id/edit', userControllers.getUserEditPage)
 
-router.get('/teachers/create', teacherControllers.getTeacherCreatePage)
+router.get('/teachers/create', studentAuthenticated, teacherControllers.getTeacherCreatePage)
 router.get('/teachers/:id', teacherControllers.getTeacherPage)
 router.get('/teachers/:id/edit', teacherControllers.getTeacherEditPage)
 

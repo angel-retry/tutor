@@ -7,26 +7,31 @@
     </form>
 
     <div class="row">
-      <div class="col-sm-6 col-lg-4 mb-3">
-        <a href="/lessons/:id" class="text-decoration-none text-black">
-          <div class="card" style="min-height: 280px;">
-            <div class="card-body">
-              <div class="d-flex gap-4">
-                <img src="https://via.placeholder.com/200x200"  class="col-6 rounded-0" alt=""  style="object-fit:cover;" >
-
-                <div class="d-flex flex-column col-6 justify-content-center">
-                  <h3 class="fw-bold">Name</h3>
-                  <p>Nation</p>
+      {{#each teachers as |teacher|}}
+        <div class="col-sm-6 col-lg-4 mb-3">
+          <a href="/lessons/{{teacher.id}}" class="text-decoration-none text-black">
+            <div class="card" style="height: 300px;">
+              <div class="card-body">
+                <div class="d-flex gap-4">
+                  {{#if teacher.User.avatar}}
+                    <img src="{{teacher.User.avatar}}"  class="col-6 rounded-0" alt=""  style="object-fit:cover;" >
+                  {{else}}
+                    <img src="https://via.placeholder.com/200x200" class="col-6 rounded-0" alt="" style="object-fit:cover;">
+                  {{/if}}
+                  <div class="d-flex flex-column col-6 justify-content-center">
+                    <h3 class="fw-bold">{{teacher.User.name}}</h3>
+                    <p>{{teacher.User.nation}}</p>
+                  </div>
+                </div>
+                <div class="card-title mt-4 fw-bold">
+                  {{teacher.courseDescription}}
                 </div>
               </div>
-              <div class="card-title mt-4 fw-bold">
-                Nunc mattis feugiat ex scelerisque congue. Nunc mattis feugiat ex scelerisque.
-              </div>
+              
             </div>
-            
-          </div>
-        </a>
-      </div>
+          </a>
+        </div>
+      {{/each}}
       <nav aria-label="Page navigation" class="d-flex justify-content-center mt-3">
         <ul class="pagination">
           <li class="page-item">
