@@ -7,8 +7,9 @@ const passport = require('./config/passport')
 const session = require('express-session')
 const flash = require('connect-flash')
 const { getUser } = require('./helpers/auth-helpers')
+const handlebarsHelpers = require('./helpers/handlebars-helpers')
 
-app.engine('hbs', engine({ extname: 'hbs' }))
+app.engine('hbs', engine({ extname: 'hbs', helpers: handlebarsHelpers }))
 app.set('view engine', 'hbs')
 
 app.use(express.static('public'))
