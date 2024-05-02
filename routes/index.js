@@ -16,6 +16,8 @@ router.get('/users/:id', userControllers.getUserPage)
 router.get('/users/:id/edit', userControllers.getUserEditPage)
 
 router.get('/teachers/create', teacherControllers.getTeacherCreatePage)
+router.get('/teachers/:id', teacherControllers.getTeacherPage)
+router.get('/teachers/:id/edit', teacherControllers.getTeacherEditPage)
 
 router.get('/lessons/:id', lessonControllers.getLessonPage)
 
