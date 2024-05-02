@@ -26,6 +26,13 @@ const authControllers = {
         return res.redirect('/login')
       })
       .catch(err => next(err))
+  },
+  postLogout: (req, res, next) => {
+    req.flash('success_messages', '登出成功!')
+    req.logout(err => {
+      if (err) return next(err)
+      return res.redirect('/login')
+    })
   }
 }
 
