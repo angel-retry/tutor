@@ -21,7 +21,7 @@ const homeControllers = {
       : {}
     Promise.all([
       Teacher.findAndCountAll({
-        include: [User],
+        include: { model: User },
         where: searchCondition,
         raw: true,
         nest: true,
@@ -51,7 +51,6 @@ const homeControllers = {
     ])
 
       .then(([teachers, top10DurationTimeStudents]) => {
-        console.log('teachers', teachers)
         const teachersData = teachers.rows.map(teacher => (
           {
             ...teacher,
@@ -62,7 +61,6 @@ const homeControllers = {
           ...lesson,
           ranking: index + 1
         }))
-        console.log('top10DurationTimeStudents', top10DurationTimeStudents)
         return res.render('home', { teachers: teachersData, page, pagination: getPagination(page, limit, teachers.count), keyword, top10DurationTimeStudents })
       })
       .catch(err => next(err))

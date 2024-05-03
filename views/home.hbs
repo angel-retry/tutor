@@ -35,8 +35,8 @@
       {{/each}}
         <nav aria-label="Page navigation" class="d-flex justify-content-center mt-3">
           <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="/home?page={{pagination.prevPage}}&keyword={{keyword}}" aria-label="Previous">
+            <li class="page-item {{#ifCond page 1}}disabled{{/ifCond}}">
+              <a class="page-link" href="/home?page={{pagination.prevPage}}&keyword={{keyword}}" aria-label="Previous" disabled>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
@@ -48,7 +48,7 @@
             {{/ifCond}}
             {{/each}}
         
-            <li class="page-item">
+            <li class="page-item {{#ifCond page pagination.totalPage}}disabled{{/ifCond}}">
               <a class="page-link" href="/home?page={{pagination.nextPage}}&keyword={{keyword}}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
