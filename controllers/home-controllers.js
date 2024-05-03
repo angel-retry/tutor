@@ -39,7 +39,7 @@ const homeControllers = {
         include: [User],
         where: {
           end_time: {
-            [Op.lt]: now
+            [Op.lt]: new Date()
           }
         },
         group: ['student_id'],

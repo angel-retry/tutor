@@ -1,4 +1,4 @@
-const { Lesson, Teacher, User, Rating } = require('../models')
+const { Lesson, Teacher, User, Rating, Sequelize } = require('../models')
 const { Op } = require('sequelize')
 
 const userControllers = {
@@ -27,9 +27,28 @@ const userControllers = {
           },
           '$Ratings.teacher_id$': null
         }
+      }),
+      Lesson.findAll({
+        attributes: [
+          'student_id',
+          [
+            Sequelize.literal('SUM(TIMESTAMPDIFF(SECOND, start_time, end_time))'),
+            'totalDuration'
+          ],
+          [
+            Sequelize.literal('RANK() OVER (ORDER BY SUM(TIMESTAMPDIFF(SECOND, start_time, end_time)) DESC)'),
+            'RK'
+          ]
+        ],
+        where: {
+          end_time: {
+            [Op.lt]: new Date()
+          }
+        },
+        group: ['student_id']
       })
     ])
-      .then(([newLessons, lessonsWithoutRating]) => {
+      .then(([newLessons, lessonsWithoutRating, studentsLessonsRanks]) => {
         newLessons = newLessons.map(lesson => (
           {
             ...lesson.toJSON()
@@ -40,9 +59,9 @@ const userControllers = {
             ...lesson.toJSON()
           }
         ))
-        console.log('newLessons', newLessons)
-        console.log('teachersWithoutRating', lessonsWithoutRating)
-        return res.render('user', { newLessons, lessonsWithoutRating })
+        const studentRank = studentsLessonsRanks.find(lesson => lesson.student_id === userId).toJSON()
+        console.log('ranks', studentRank)
+        return res.render('user', { newLessons, lessonsWithoutRating, studentRank })
       })
   },
   getUserEditPage: (req, res) => {
