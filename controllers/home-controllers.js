@@ -1,7 +1,6 @@
 const { Teacher, User, Lesson, Sequelize } = require('../models')
 const { Op } = require('sequelize')
 const { getOffset, getPagination } = require('../helpers/pagination-helpers')
-const { now } = require('sequelize/lib/utils')
 
 const homeControllers = {
   getHomePage: (req, res, next) => {
