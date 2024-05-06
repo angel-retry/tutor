@@ -1,20 +1,24 @@
 <div class="container mt-5">
   <h4 class="fw-bold mb-3">修改老師資料</h4>
-  <form action="/teachers/:id" class="col-10 mb-5">
+  <form action="/teachers/{{user.id}}" class="col-10 mb-5">
     <div class="mb-3">
       <label for="courseDescription" class="form-label fw-bold">Your introduction</label>
       <textarea class="form-control" id="courseDescription" name="courseDescription" placeholder="介紹你的課程"
-        rows="5"></textarea>
+        rows="5">{{teacher.courseDescription}}</textarea>
     </div>
     <div class="mb-3">
       <label for="teachingMethod" class="form-label fw-bold">Your Teaching Style</label>
       <textarea class="form-control" id="teachingMethod" name="teachingMethod" placeholder="介紹你的教學方式"
-        rows="5"></textarea>
+        rows="5">{{teacher.teachingMethod}}</textarea>
     </div>
     <div class="mb-3">
       <label for="lessonDuration" class="form-label fw-bold">單堂課程時間 (分鐘)</label>
       <select class="form-select" aria-label="Default select example" id="lessonDuration">
-        <option selected>請選擇時間</option>
+        {{#if teacher.lessonDuration}}
+        <option value="{{teacher.lessonDuration}}">{{teacher.lessonDuration}}分鐘</option>
+        {{else}}
+          <option selected>請選擇時間</option>
+        {{/if}}
         <option value="30">30分鐘</option>
         <option value="60">60分鐘</option>
       </select>
@@ -22,48 +26,25 @@
     <div class="mb-3">
       <label class="form-label fw-bold">開放預約</label>
       <div class="fw-bold d-flex flex-wrap gap-3 gap-md-5">
+        {{#each indexWeekdays}}
+        {{#ifIncludes ../teacher.availableDays this.index}}
         <div class="form-check">
-          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
+          <input class="form-check-input border border-3 border-primary" type="checkbox" value="{{this.index}}" id="availableDays" checked>
           <label class="form-check-label" for="flexCheckDefault">
-            Mon.
+            {{this.day}}
           </label>
         </div>
+        {{else}}
         <div class="form-check">
-          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
+          <input class="form-check-input border border-3 border-primary" type="checkbox" value="{{this.index}}"
+            id="availableDays">
           <label class="form-check-label" for="flexCheckDefault">
-            Tue.
+            {{this.day}}
           </label>
         </div>
-        <div class="form-check">
-          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
-          <label class="form-check-label" for="flexCheckDefault">
-            Wed.
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
-          <label class="form-check-label" for="flexCheckDefault">
-            Thur.
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
-          <label class="form-check-label" for="flexCheckDefault">
-            Fri.
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
-          <label class="form-check-label" for="flexCheckDefault">
-            Sat.
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input border border-3 border-primary" type="checkbox" value="" id="availableDays">
-          <label class="form-check-label" for="flexCheckDefault">
-            Sun.
-          </label>
-        </div>
+        {{/ifIncludes}}
+        {{/each}}
+
       </div>
 
     </div>

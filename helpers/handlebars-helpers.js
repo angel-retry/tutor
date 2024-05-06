@@ -16,5 +16,8 @@ module.exports = {
     date = dayjs(date)
     const formattedDate = date.format('HH:mm')
     return formattedDate
+  },
+  ifIncludes: function (arrs, index, options) {
+    return arrs.includes(index) ? options.fn(this) : options.inverse(this)
   }
 }
