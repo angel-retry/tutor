@@ -1,20 +1,25 @@
 <div class="container-fluid mt-4" style="max-height: 100vh; max-width: 1600px;">
   <div class="row m-0">
     <div class="col-md-4 row m-0 mb-5 mx-1">
+      {{#if user.avatar}}
+      <img src="{{user.avatar}}" alt="" class="col-6 col-md-12 rounded-0"
+        style="object-fit:contain; max-width:350px;">
+      {{else}}
       <img src="https://via.placeholder.com/200x200" alt="" class="col-6 col-md-12 rounded-0"
         style="object-fit:contain; max-width:350px;">
+      {{/if}}
       <div class="col-6">
-        <h3 class="h3 fw-bold my-4">Name</h3>
+        <h3 class="h3 fw-bold my-4">{{user.name}}</h3>
       </div>
       <div class="mt-3">
-        <h5 class="fw-bold ">Nation</h5>
+        <h5 class="fw-bold ">{{user.nation}}</h5>
         <div class="fw-bold">
           <i class="fa-solid fa-heart me-2" style="color: red;"></i>
-          <span class="fw-bold">4.8</span>
+          <span class="fw-bold">{{teacher.totalRating}}</span>
         </div>
         <h5 class="fw-bold mt-3">About me</h5>
         <p>
-          Big company announcement or simple sub-header taking two or more lines.
+          {{teacher.courseDescription}}
         </p>
       </div>
     </div>
@@ -22,30 +27,15 @@
       <div class="mb-4 new-schedule">
         <h3 class="fw-bold mb-3">New Schedule</h3>
         <div class="row">
+          {{#each teacher.Lessons}}
           <div class="col-sm-6 col-md-12 col-lg-6  mb-3">
             <div class="card">
               <div class="card-body">
                 <div class="card-title d-flex flex-wrap gap-2">
-                  <div class="fw-bold">Time:</div>2024/10/10 18:30 ~ 17:30
+                  <div class="fw-bold">Time:</div>{{specifiedStartTime this.startTime}} ~ {{specifiedEndTime this.endTime}}
                 </div>
                 <div class="card-title d-flex flex-wrap gap-2">
-                  <div class="fw-bold">Teacher's Name:</div>ajidohjpioah
-                </div>
-                <div class="card-title d-flex flex-wrap gap-2">
-                  <div class="fw-bold">Link:</div>
-                  <a href="/" class="text-decoration-none fw-bold">https://meet.google.com/</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-12 col-lg-6 mb-3">
-            <div class="card">
-              <div class="card-body">
-                <div class="card-title d-flex flex-wrap gap-2">
-                  <div class="fw-bold">Time:</div>2024/10/10 18:30 ~ 17:30
-                </div>
-                <div class="card-title d-flex flex-wrap gap-2">
-                  <div class="fw-bold">Teacher's Name:</div>ajidohjpioah
+                  <div class="fw-bold">Student's Name:</div>{{this.User.name}}
                 </div>
                 <div class="card-title d-flex flex-wrap gap-2">
                   <div class="fw-bold">Link:</div>
@@ -54,27 +44,25 @@
               </div>
             </div>
           </div>
+          {{/each}}
         </div>
       </div>
 
       <div class="mb-4 lesson-history">
         <h3 class="fw-bold mb-3">Your Teaching Style</h3>
         <p class="">
-          Big company announcement or simple sub-header taking two or more lines. Big company announcement or simple sub-header
-          taking two or more lines.
+          {{teacher.teachingMethod}}
         </p>
       </div>
 
       <div class="ranking mb-4">
         <h3 class="fw-bold mb-3">Recent Reviewed</h3>
+        {{#each teacher.Ratings}}
         <div class="d-flex gap-2 align-items-center">
-          <p class="text-center fw-bold bg-warning rounded-1 d-inline-flex px-2">4.8</p>
-          <p class="">Big company announcement or simple sub-header taking two or more lines.</p>
+          <p class="text-center fw-bold bg-warning rounded-1 d-inline-flex px-2" style="width: 40px;">{{this.rating}}</p>
+          <p class="">{{this.comment}}</p>
         </div>
-        <div class="d-flex gap-2 align-items-center">
-          <p class="text-center fw-bold bg-warning rounded-1 d-inline-flex px-2">4.8</p>
-          <p class="">Big company announcement or simple sub-header taking two or more lines.</p>
-        </div>
+        {{/each}}
       </div>
 
       <div class="d-flex justify-content-end">
