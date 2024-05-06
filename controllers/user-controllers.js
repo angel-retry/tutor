@@ -65,7 +65,15 @@ const userControllers = {
       })
   },
   getUserEditPage: (req, res) => {
-    return res.render('user-edit')
+    const userId = Number(req.params.id) || null
+    if (userId !== req.user.id) throw new Error('沒有權限修改此資料!')
+    User.findByPk(userId, {
+      raw: true
+    })
+      .then(user => {
+        if (!user) throw new Error('找不到此使用者。')
+        return res.render('user-edit', { user })
+      })
   }
 }
 

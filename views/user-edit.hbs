@@ -4,21 +4,22 @@
   <form action="/users/:id" class="">
     <div class="mb-3 col-md-3">
       <label for="name" class="form-label fw-bold">Name</label>
-      <input type="text" class="form-control " id="name" placeholder="Name" value="Name">
+      <input type="text" class="form-control " id="name" placeholder="Name" value="{{user.name}}">
     </div>
     <div class="mb-3 col-md-3">
       <label for="nation" class="form-label fw-bold">Nation</label>
-      <input type="text" class="form-control" id="Nation" placeholder="Nation" value="Nation">
+      <input type="text" class="form-control" id="Nation" placeholder="Nation" value="{{user.nation}}">
     </div>
     <div class="mb-3 col-md-3">
       <label for="avatar" class="form-label fw-bold">Avatar</label>
-      <input type="file" class="form-control" id="avatar"  value="avatar">
+      <input type="file" class="form-control" id="avatar"  value="{{user.avatar}}">
     </div>
     <div class="mb-3 col-md-8">
       <label for="introduction" class="form-label fw-bold">Introduction</label>
-      <textarea class="form-control" id="introduction" rows="3">IntroductionIntroductionIntroduction</textarea>
+      <textarea class="form-control" id="introduction" rows="3">{{user.introduction}}</textarea>
     </div>
-    <div class="col-4">
+    <div class="col-md-8 d-flex gap-3">
+      <a class="btn btn-outline-secondary" href="/users/{{user.id}}">back</a>
       <button class="btn btn-primary">Submit</button>
     </div>
   </form>
