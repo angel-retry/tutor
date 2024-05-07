@@ -3,7 +3,7 @@
     <div class="col-md-4 row m-0 mb-5 mx-1">
       {{#if user.avatar}}
       <img src="{{user.avatar}}" alt="" class="col-6 col-md-12 rounded-0"
-        style="object-fit:contain; max-width:350px;">
+         style="object-fit:cover; max-width:350px; max-height: 350px;">
       {{else}}
       <img src="https://via.placeholder.com/200x200" alt="" class="col-6 col-md-12 rounded-0"
         style="object-fit:contain; max-width:350px;">
@@ -12,14 +12,28 @@
         <h3 class="h3 fw-bold my-4">{{user.name}}</h3>
       </div>
       <div class="mt-3">
-        <h5 class="fw-bold ">{{user.nation}}</h5>
+        <h5 class="fw-bold ">
+          {{#if user.nation}}
+            {{user.nation}}
+          {{else}}
+            Earth
+          {{/if}}
+        </h5>
         <div class="fw-bold">
+          {{#if teacher.totalRating}}
           <i class="fa-solid fa-heart me-2" style="color: red;"></i>
           <span class="fw-bold">{{teacher.totalRating}}</span>
+          {{else}}
+          <p class="text-secondary">尚未沒有評分。</p>
+          {{/if}}
         </div>
         <h5 class="fw-bold mt-3">About me</h5>
         <p>
+          {{#if teacher.courseDescription}}
           {{teacher.courseDescription}}
+          {{else}}
+          Nice to meet you.
+          {{/if}}
         </p>
       </div>
     </div>
@@ -27,6 +41,7 @@
       <div class="mb-4 new-schedule">
         <h3 class="fw-bold mb-3">New Schedule</h3>
         <div class="row">
+          {{#if teacher.Lessons}}
           {{#each teacher.Lessons}}
           <div class="col-sm-6 col-md-12 col-lg-6  mb-3">
             <div class="card">
@@ -45,6 +60,9 @@
             </div>
           </div>
           {{/each}}
+          {{else}}
+          <p class="fs-5 my-3 text-secondary text-center border border-2 p-5 rounded-1">目前沒有預約課程!</p>
+          {{/if}}
         </div>
       </div>
 
@@ -57,12 +75,16 @@
 
       <div class="ranking mb-4">
         <h3 class="fw-bold mb-3">Recent Reviewed</h3>
+        {{#if teacher.Ratings}}
         {{#each teacher.Ratings}}
         <div class="d-flex gap-2 align-items-center">
           <p class="text-center fw-bold bg-warning rounded-1 d-inline-flex px-2" style="width: 40px;">{{this.rating}}</p>
           <p class="">{{this.comment}}</p>
         </div>
         {{/each}}
+        {{else}}
+        <p class="fs-5 my-3 text-secondary text-center border border-2 p-5 rounded-1">目前沒有學生評分!</p>
+        {{/if}}
       </div>
 
       <div class="d-flex justify-content-end">

@@ -5,7 +5,11 @@ const weekdays = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']
 
 const teacherControllers = {
   getTeacherCreatePage: (req, res) => {
-    return res.render('teacher-create')
+    const indexWeekdays = weekdays.map((day, i) => ({
+      index: i,
+      day
+    }))
+    return res.render('teacher-create', { indexWeekdays })
   },
   getTeacherPage: (req, res, next) => {
     const teacherId = Number(req.params.id)
@@ -19,7 +23,8 @@ const teacherControllers = {
             startTime: {
               [Op.gt]: new Date()
             }
-          }
+          },
+          required: false
         },
         Rating
       ],
@@ -51,6 +56,37 @@ const teacherControllers = {
         }))
         console.log('days', indexWeekdays)
         return res.render('teacher-edit', { teacher, indexWeekdays })
+      })
+      .catch(err => next(err))
+  },
+  createTeacher: (req, res, next) => {
+    const { courseDescription, teachingMethod, lessonDuration, availableDays, videoLink } = req.body
+    if (!courseDescription || !teachingMethod || !lessonDuration || !availableDays || !videoLink) throw new Error('請填入完整資料!')
+    console.log({ courseDescription, teachingMethod, lessonDuration, availableDays, videoLink })
+    Teacher.findByPk(req.user.id)
+      .then(teacher => {
+        if (teacher) throw new Error('此使用者已成為老師!')
+        Promise.all([
+          Teacher.create({
+            id: req.user.id,
+            courseDescription,
+            teachingMethod,
+            lessonDuration,
+            availableDays,
+            videoLink
+          }),
+          User.update({
+            isTeacher: true
+          }, {
+            where: {
+              id: req.user.id
+            }
+          })
+        ])
+      })
+      .then(() => {
+        req.flash('success', '恭喜開課成功!')
+        return res.redirect(`/teachers/${req.user.id}`)
       })
       .catch(err => next(err))
   }

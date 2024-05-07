@@ -2,6 +2,9 @@
 const {
   Model
 } = require('sequelize')
+
+const User = require('./user')
+
 module.exports = (sequelize, DataTypes) => {
   class Teacher extends Model {
     /**
@@ -48,5 +51,6 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'Teachers',
     underscored: true
   })
+
   return Teacher
 }

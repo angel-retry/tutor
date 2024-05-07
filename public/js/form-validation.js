@@ -1,10 +1,12 @@
-const form = document.querySelector('form')
+const forms = document.querySelectorAll('form')
 
-form.addEventListener('submit', (event) => {
-  if (!form.checkValidity()) {
-    event.preventDefault()
-    event.stopPropagation()
-  }
+forms.forEach(form => {
+  form.addEventListener('submit', (event) => {
+    if (!form.checkValidity()) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
 
-  form.classList.add('was-validated')
+    form.classList.add('was-validated')
+  })
 })

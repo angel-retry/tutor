@@ -3,6 +3,13 @@ const localeZh = require('dayjs/locale/zh-cn')
 
 dayjs.locale(localeZh)
 
+const weekdays = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']
+
+const indexWeekdays = weekdays.map((day, i) => ({
+  index: i,
+  day
+}))
+
 module.exports = {
   ifCond: function (a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this)
@@ -19,5 +26,6 @@ module.exports = {
   },
   ifIncludes: function (arrs, index, options) {
     return arrs.includes(index) ? options.fn(this) : options.inverse(this)
-  }
+  },
+  indexWeekdays
 }
