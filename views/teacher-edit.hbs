@@ -1,6 +1,6 @@
 <div class="container mt-5">
   <h4 class="fw-bold mb-3">修改老師資料</h4>
-  <form action="/teachers/{{user.id}}" class="col-10 mb-5">
+  <form action="/teachers/{{user.id}}?_method=PUT" method="post" class="col-10 mb-5">
     <div class="mb-3">
       <label for="courseDescription" class="form-label fw-bold">Your introduction</label>
       <textarea class="form-control" id="courseDescription" name="courseDescription" placeholder="介紹你的課程"
@@ -13,23 +13,30 @@
     </div>
     <div class="mb-3">
       <label for="lessonDuration" class="form-label fw-bold">單堂課程時間 (分鐘)</label>
-      <select class="form-select" aria-label="Default select example" id="lessonDuration">
+      <select class="form-select" aria-label="Default select example" id="lessonDuration" name="lessonDuration">
         {{#if teacher.lessonDuration}}
         <option value="{{teacher.lessonDuration}}">{{teacher.lessonDuration}}分鐘</option>
         {{else}}
-          <option selected>請選擇時間</option>
+          <option selected disabled>請選擇時間</option>
         {{/if}}
         <option value="30">30分鐘</option>
         <option value="60">60分鐘</option>
       </select>
     </div>
     <div class="mb-3">
-      <label class="form-label fw-bold">開放預約</label>
+      <label for="videoLink" class="form-label fw-bold">課程視訊連結</label>
+      <input type="text" class="form-control" id="videoLink" name="videoLink" value="{{teacher.videoLink}}" placeholder="介紹你的教學方式" required />
+      <div class="invalid-feedback">
+        請介紹你的教學方式
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">開放預約<span class="text-danger">(已預約的課程不可再更改時間)</span></label>
       <div class="fw-bold d-flex flex-wrap gap-3 gap-md-5">
         {{#each indexWeekdays}}
         {{#ifIncludes ../teacher.availableDays this.index}}
         <div class="form-check">
-          <input class="form-check-input border border-3 border-primary" type="checkbox" value="{{this.index}}" id="availableDays" checked>
+          <input class="form-check-input border border-3 border-primary" type="checkbox" value="{{this.index}}" name="availableDays" checked>
           <label class="form-check-label" for="flexCheckDefault">
             {{this.day}}
           </label>
@@ -37,7 +44,7 @@
         {{else}}
         <div class="form-check">
           <input class="form-check-input border border-3 border-primary" type="checkbox" value="{{this.index}}"
-            id="availableDays">
+            name="availableDays">
           <label class="form-check-label" for="flexCheckDefault">
             {{this.day}}
           </label>

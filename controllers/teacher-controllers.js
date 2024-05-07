@@ -89,6 +89,31 @@ const teacherControllers = {
         return res.redirect(`/teachers/${req.user.id}`)
       })
       .catch(err => next(err))
+  },
+  putTeacher: (req, res, next) => {
+    const teacherId = Number(req.params.id)
+    if (teacherId !== req.user.id) throw new Error('沒有權限修改此資料!')
+    const { courseDescription, teachingMethod, lessonDuration, availableDays, videoLink } = req.body
+    console.log({ courseDescription, teachingMethod, lessonDuration, availableDays, videoLink })
+    if (!courseDescription || !teachingMethod || !lessonDuration || !availableDays || !videoLink) throw new Error('請填入完整資料!')
+
+    const parsedAvailableDays = availableDays.map(day => Number(day))
+    Teacher.findByPk(teacherId)
+      .then(teacher => {
+        if (!teacher) throw new Error('找不到此使用者。')
+        return teacher.update({
+          courseDescription,
+          teachingMethod,
+          lessonDuration,
+          availableDays: parsedAvailableDays,
+          videoLink
+        })
+      })
+      .then(() => {
+        req.flash('success_messages', '修改成功!')
+        return res.redirect(`/teachers/${teacherId}`)
+      })
+      .catch(err => next(err))
   }
 }
 

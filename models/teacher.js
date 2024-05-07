@@ -3,8 +3,6 @@ const {
   Model
 } = require('sequelize')
 
-const User = require('./user')
-
 module.exports = (sequelize, DataTypes) => {
   class Teacher extends Model {
     /**

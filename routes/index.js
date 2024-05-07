@@ -22,6 +22,7 @@ router.get('/users/:id/edit', userControllers.getUserEditPage)
 router.post('/teachers/create', teacherControllers.createTeacher)
 router.get('/teachers/create', studentAuthenticated, teacherControllers.getTeacherCreatePage)
 router.get('/teachers/:id', teacherControllers.getTeacherPage)
+router.put('/teachers/:id', teacherControllers.putTeacher)
 router.get('/teachers/:id/edit', teacherControllers.getTeacherEditPage)
 
 router.get('/lessons/:id', lessonControllers.getLessonPage)
