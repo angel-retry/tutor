@@ -127,6 +127,7 @@ module.exports = {
           updated_at: new Date()
         }
       })
+
       await queryInterface.bulkInsert('Lessons', teacherHistoryLessons)
     }
   },
