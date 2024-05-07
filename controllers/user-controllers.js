@@ -49,17 +49,22 @@ const userControllers = {
       })
     ])
       .then(([newLessons, lessonsWithoutRating, studentsLessonsRanks]) => {
-        newLessons = newLessons.map(lesson => (
-          {
-            ...lesson.toJSON()
-          }
-        ))
-        lessonsWithoutRating = lessonsWithoutRating.map(lesson => (
-          {
-            ...lesson.toJSON()
-          }
-        ))
-        const studentRank = studentsLessonsRanks.find(lesson => lesson.student_id === userId).toJSON()
+        newLessons = newLessons
+          ? newLessons.map(lesson => (
+            {
+              ...lesson.toJSON()
+            }
+          ))
+          : null
+        lessonsWithoutRating = lessonsWithoutRating
+          ? lessonsWithoutRating.map(lesson => (
+            {
+              ...lesson.toJSON()
+            }
+          ))
+          : null
+        const getStudentRank = studentsLessonsRanks.find(lesson => lesson.student_id === userId)
+        const studentRank = getStudentRank ? getStudentRank.toJSON() : null
         console.log('ranks', studentRank)
         return res.render('user', { newLessons, lessonsWithoutRating, studentRank })
       })
