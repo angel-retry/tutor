@@ -8,12 +8,16 @@ const session = require('express-session')
 const flash = require('connect-flash')
 const { getUser } = require('./helpers/auth-helpers')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
+const methodOverride = require('method-override')
+const path = require('path')
 
 app.engine('hbs', engine({ extname: 'hbs', helpers: handlebarsHelpers }))
 app.set('view engine', 'hbs')
 
 app.use(express.static('public'))
+app.use('/upload', express.static(path.join(__dirname, 'upload')))
 app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 app.use(session({
   secret: process.env.SESSION_SECRET,

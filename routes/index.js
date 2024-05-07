@@ -8,6 +8,7 @@ const lessonControllers = require('../controllers/lesson-controllers')
 const router = express.Router()
 const { userAuthenticated, studentAuthenticated } = require('../middlewares/auth-handlers')
 const homeControllers = require('../controllers/home-controllers')
+const upload = require('../middlewares/multer-helpers')
 
 router.use('', auth)
 router.use('/admin', admin)
@@ -15,6 +16,7 @@ router.use('/admin', admin)
 router.get('/home', userAuthenticated, homeControllers.getHomePage)
 
 router.get('/users/:id', userControllers.getUserPage)
+router.put('/users/:id', upload.single('avatar'), userControllers.putUser)
 router.get('/users/:id/edit', userControllers.getUserEditPage)
 
 router.get('/teachers/create', studentAuthenticated, teacherControllers.getTeacherCreatePage)

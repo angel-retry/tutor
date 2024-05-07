@@ -1,3 +1,4 @@
+const localFileHandler = require('../helpers/file-helpers')
 const { Lesson, Teacher, User, Rating, Sequelize } = require('../models')
 const { Op } = require('sequelize')
 
@@ -79,6 +80,29 @@ const userControllers = {
         if (!user) throw new Error('找不到此使用者。')
         return res.render('user-edit', { user })
       })
+  },
+  putUser: (req, res, next) => {
+    const userId = Number(req.params.id) || null
+    if (userId !== req.user.id) throw new Error('沒有權限修改此資料!')
+    const { name, nation, avatar, introduction } = req.body
+    const { file } = req
+    if (!name) throw new Error('請填入姓名!')
+    console.log({ name, nation, avatar, introduction })
+
+    Promise.all([
+      localFileHandler(file),
+      User.findByPk(userId)
+    ])
+      .then(([filePath, user]) => {
+        if (!user) throw new Error('找不到此使用者。')
+        return user.update({ name, nation, avatar: filePath, introduction })
+          .then(() => {
+            req.flash('success_messages', '修改成功!')
+            return res.redirect(`/users/${userId}`)
+          })
+          .catch(err => next(err))
+      })
+      .catch(err => next(err))
   }
 }
 
