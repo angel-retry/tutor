@@ -5,7 +5,7 @@ const { Op } = require('sequelize')
 const userControllers = {
   getUserPage: (req, res) => {
     const userId = Number(req.params?.id)
-    if (userId !== req.user.id) throw new Error('沒有權限看此資料!')
+    if (userId !== req.user?.id) throw new Error('沒有權限看此資料!')
     Promise.all([
       Lesson.findAll({
         include: [{ model: Teacher, include: [User] }],
@@ -67,6 +67,7 @@ const userControllers = {
         const getStudentRank = studentsLessonsRanks.find(lesson => lesson.student_id === userId)
         const studentRank = getStudentRank ? getStudentRank.toJSON() : null
         console.log('ranks', studentRank)
+        console.log('lessonsWithoutRating', lessonsWithoutRating)
         return res.render('user', { newLessons, lessonsWithoutRating, studentRank })
       })
   },

@@ -1,3 +1,5 @@
+{{> add-rating}}
+
 <div class="container-fluid mt-4" style="max-height: 100vh; max-width: 1600px;">
   <div class="row m-0">
     <div class="col-md-4 row m-0 mb-5 mx-1">
@@ -90,7 +92,8 @@
                                     aria-label="Close"></button>
                                 </div>
                                 <h4 class="fw-bold text-center">分享本次的課程體驗</h4>
-                                <form action="/ratings" method="post">
+                                <form action="/ratings/{{lesson.teacherId}}" method="post" novalidate>
+                                  <input type="text" name="lessonId" value="{{lesson.id}}" style="display: none;">
                                   <div class="mb-3">
                                     <label for="name" class="form-label">Teacher's name</label>
                                     <input type="text" class="form-control" id="name" value="{{lesson.Teacher.User.name}}" disabled readonly>
@@ -102,12 +105,17 @@
                                   </div>
                                   <div class="mb-3">
                                     <label for="rating" class="form-label">Rating</label>
-                                    <input type="number" class="form-control" id="rating" min="0.1" max="5.0"
-                                      inputmode="numeric" />
+                                    <input type="text" class="form-control" id="rating" name="rating" pattern="[1-4]+([.][0-9]{1})?|5(\.0)?" inputmode="numeric" required/>
+                                      <div class="invalid-feedback">
+                                        請評分分數(介於 1.0 ~ 5.0 之間)
+                                      </div>
                                   </div>
                                   <div class="mb-3">
                                     <label for="exampleFormControlTextarea1" class="form-label">Comment</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment" required></textarea>
+                                    <div class="invalid-feedback">
+                                      請留言給老師，給老師建議或是回饋> <&#33;&nbsp;如果沒有打無也行。 
+                                    </div>
                                   </div>
                                   <div class="d-flex justify-content-end gap-3">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
