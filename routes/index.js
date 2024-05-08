@@ -26,6 +26,7 @@ router.put('/teachers/:id', teacherControllers.putTeacher)
 router.get('/teachers/:id/edit', teacherControllers.getTeacherEditPage)
 
 router.get('/lessons/:id', lessonControllers.getLessonPage)
+router.post('/lessons/:id', lessonControllers.postLesson)
 
 router.use('/', (req, res, next) => {
   const user = req.user

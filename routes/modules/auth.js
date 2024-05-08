@@ -9,7 +9,7 @@ router.get('/register', authControllers.getRegisterPage)
 router.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
 }), (req, res) => {
-  req.flash('success_message', '成功登入!')
+  req.flash('success_messages', '成功登入!')
   return res.redirect('/')
 })
 

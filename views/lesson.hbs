@@ -1,3 +1,4 @@
+{{> add-lesson}}
 <div class="container-fluid mt-4 row mx-auto" style="max-height: 100vh; max-width: 1600px;">
   <div class="col-12 mb-4">
     <div class="row">
@@ -22,17 +23,17 @@
       </div>
       {{#unless user.isTeacher}}
       <div class="col-md-4">
-        <form action="/lessons" method="post" class="d-flex flex-column gap-3">
+        <form action="/lessons/{{teacher.id}}" method="post" class="d-flex flex-column gap-3">
           <label class="fw-bold fs-4 form-label bg-primary text-white col-12 px-2 py-1 rounded-1"
             for="createLesson">預約上課</label>
-          <select class="form-select mb-3" aria-label="Default select example" id="createLesson">
-            <option selected>Open this select menu</option>
+          <select class="form-select mb-3" aria-label="Default select example" id="createLesson" name="createLesson">
+            <option selected disabled value="">Open this select menu</option>
             {{#each filteredAvailableDates}}
-            <option value="1">{{specifiedStartTime this.startTime}} ~ {{specifiedEndTime this.endTime}}</option>
+            <option value="{{postStartTimeAndEndTime this.startTime this.endTime}}">{{specifiedStartTime this.startTime}} ~ {{specifiedEndTime this.endTime}}</option>
             {{/each}}
           </select>
           <div class="d-flex justify-content-end">
-            <button class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </form>
       </div>
@@ -41,7 +42,7 @@
   </div>
   <div class="col-md-8">
     <div class="mb-4">
-      <h5 class="fw-bold">New Schedule</h5>
+      <h5 class="fw-bold">Introduction</h5>
       <p>
         {{teacher.courseDescription}}
       </p>

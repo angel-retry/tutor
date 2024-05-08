@@ -45,14 +45,14 @@ passport.use(new LocalStrategy({
   ])
     .then(([user, admin]) => {
       if (!user && !admin) {
-        return cb(null, false, req.flash('error_message', '帳號密碼輸入錯誤!'))
+        return cb(null, false, req.flash('error_messages', '帳號密碼輸入錯誤!'))
       }
 
       if (user) {
         return bcrypt.compare(password, user.password)
           .then(isMatch => {
             if (!isMatch) {
-              return cb(null, false, req.flash('error_message', '帳號密碼輸入錯誤!'))
+              return cb(null, false, req.flash('error_messages', '帳號密碼輸入錯誤!'))
             }
             user.isAdmin = false
             return cb(null, user)

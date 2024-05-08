@@ -38,10 +38,6 @@ const getStartTimeAndEndTime = (date, durationTime, startHour = 18, endHours = 2
     currentStartTime = nextEndTime
   }
 
-  console.log({
-    timeSlots
-  })
-
   return timeSlots
 }
 
