@@ -18,6 +18,7 @@ module.exports = {
     return formattedDate
   },
   ifIncludes: function (arrs, index, options) {
+    if (!arrs) arrs = []
     return arrs.includes(index) ? options.fn(this) : options.inverse(this)
   },
   postStartTimeAndEndTime: function (startTime, endTime) {
