@@ -1,33 +1,36 @@
 {{> add-rating}}
-<div class="row gap-4">
-  <div class="col-md-4 row">
-    <div class="col-6 col-md-12" >
-      <div style="width: 100%; max-width:300px;  height: auto;max-height:300px; overflow:hidden;" >
-      <img src="{{#if user.avatar}}{{user.avatar}}{{else}}https://via.placeholder.com/200x200{{/if}}" alt="{{user.name}} avatar" class="w-100 h-100" style="object-fit: cover; object-position:center;">
+<div class="row">
+  <div class="col-md-4 mb-3">
+    <div class="row">
+      <div class="col-6 col-md-12">
+        <div style="width: 100%; max-width:300px;  height: auto;max-height:300px; overflow:hidden;">
+          <img src="{{#if user.avatar}}{{user.avatar}}{{else}}https://via.placeholder.com/200x200{{/if}}"
+            alt="{{user.name}} avatar" class="w-100 h-100" style="object-fit: cover; object-position:center;">
+        </div>
       </div>
-    </div>
-    <div class="col-6 col-md-12 d-flex flex-column justify-content-center justify-content-md-between">
-      <h3 class="fw-bold">{{user.name}}</h3>
-      <h5 class="fw-bold  ">
-        {{#if user.nation}}
-        {{user.nation}}
-        {{else}}
-        Earth
-        {{/if}}
-      </h5>
-    </div>
-    <div class="mt-3 mt-md-1">
-      <h5 class="fw-bold">About me</h5>
-      <p>
-        {{#if user.introduction}}
-        {{user.introduction}}
-        {{else}}
-        I am a student of Earth.
-        {{/if}}
-      </p>
-    </div>
-    <div class="">
-      <a href="/users/{{user.id}}/edit" class="btn btn-primary col-4">Edit</a>
+      <div class="col-6 col-md-12 d-flex flex-column justify-content-center justify-content-md-between">
+        <h3 class="fw-bold  my-md-5">{{user.name}}</h3>
+        <h5 class="fw-bold">
+          {{#if user.nation}}
+          {{user.nation}}
+          {{else}}
+          Earth
+          {{/if}}
+        </h5>
+      </div>
+      <div class="mt-3 mt-md-1">
+        <h5 class="fw-bold">About me</h5>
+        <p>
+          {{#if user.introduction}}
+          {{user.introduction}}
+          {{else}}
+          I am a student of Earth.
+          {{/if}}
+        </p>
+      </div>
+      <div class="">
+        <a href="/users/{{user.id}}/edit" class="btn btn-primary col-4">Edit</a>
+      </div>
     </div>
   </div>
   <div class="col-md-8">
