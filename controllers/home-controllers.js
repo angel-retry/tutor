@@ -20,7 +20,11 @@ const homeControllers = {
       : {}
     Promise.all([
       Teacher.findAndCountAll({
-        include: { model: User },
+        attributes: ['id', 'courseDescription'],
+        include: {
+          model: User,
+          attributes: ['id', 'name', 'avatar', 'nation']
+        },
         where: searchCondition,
         raw: true,
         nest: true,
@@ -33,9 +37,15 @@ const homeControllers = {
           [
             Sequelize.literal('SUM(TIMESTAMPDIFF(SECOND, start_time, end_time))'),
             'totalDuration'
+          ],
+          [
+            Sequelize.literal('RANK() OVER (ORDER BY SUM(TIMESTAMPDIFF(SECOND, start_time, end_time)) DESC)'),
+            'RK'
           ]
         ],
-        include: [User],
+        include: [
+          { model: User, attributes: ['id', 'name', 'avatar'] }
+        ],
         where: {
           end_time: {
             [Op.lt]: new Date()
@@ -56,10 +66,6 @@ const homeControllers = {
             courseDescription: teacher.courseDescription.length > 100 ? teacher.courseDescription.substring(0, 100) + '...' : teacher.courseDescription
           }
         ))
-        top10DurationTimeStudents = top10DurationTimeStudents.map((lesson, index) => ({
-          ...lesson,
-          ranking: index + 1
-        }))
         return res.render('home', { teachers: teachersData, page, pagination: getPagination(page, limit, teachers.count), keyword, top10DurationTimeStudents })
       })
       .catch(err => next(err))
