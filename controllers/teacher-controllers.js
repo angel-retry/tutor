@@ -28,17 +28,18 @@ const teacherControllers = {
         },
         Rating
       ],
-      attributes: {
-        include: [
-          [
-            Sequelize.literal('(SELECT ROUND(AVG(rating), 1) FROM Ratings WHERE Ratings.teacher_id = Teacher.id)'), 'totalRating'
-          ]
+      attributes: [
+        'id',
+        'courseDescription',
+        'teachingMethod',
+        [
+          Sequelize.literal('(SELECT ROUND(AVG(rating), 1) FROM Ratings WHERE Ratings.teacher_id = Teacher.id)'), 'totalRating'
         ]
-      }
+      ],
+      order: [[Lesson, 'createdAt', 'DESC']]
     })
       .then(teacher => {
         teacher = teacher.toJSON()
-        console.log('teacher', teacher)
         return res.render('teacher', { teacher })
       })
       .catch(err => next(err))
@@ -54,7 +55,6 @@ const teacherControllers = {
           index: i,
           day
         }))
-        console.log('days', indexWeekdays)
         return res.render('teacher-edit', { teacher, indexWeekdays })
       })
       .catch(err => next(err))
