@@ -6,7 +6,7 @@ const userControllers = require('../controllers/user-controllers')
 const teacherControllers = require('../controllers/teacher-controllers')
 const lessonControllers = require('../controllers/lesson-controllers')
 const router = express.Router()
-const { userAuthenticated, studentAuthenticated } = require('../middlewares/auth-handlers')
+const { userAuthenticated, studentAuthenticated, teacherAuthenticated } = require('../middlewares/auth-handlers')
 const homeControllers = require('../controllers/home-controllers')
 const upload = require('../middlewares/multer-helpers')
 const ratingControllers = require('../controllers/rating-controllers')
@@ -16,20 +16,20 @@ router.use('/admin', admin)
 
 router.get('/home', userAuthenticated, homeControllers.getHomePage)
 
-router.get('/users/:id', userControllers.getUserPage)
-router.put('/users/:id', upload.single('avatar'), userControllers.putUser)
-router.get('/users/:id/edit', userControllers.getUserEditPage)
+router.get('/users/:id', studentAuthenticated, userControllers.getUserPage)
+router.put('/users/:id', studentAuthenticated, upload.single('avatar'), userControllers.putUser)
+router.get('/users/:id/edit', studentAuthenticated, userControllers.getUserEditPage)
 
-router.post('/teachers/create', teacherControllers.createTeacher)
+router.post('/teachers/create', studentAuthenticated, teacherControllers.createTeacher)
 router.get('/teachers/create', studentAuthenticated, teacherControllers.getTeacherCreatePage)
-router.get('/teachers/:id', teacherControllers.getTeacherPage)
-router.put('/teachers/:id', teacherControllers.putTeacher)
-router.get('/teachers/:id/edit', teacherControllers.getTeacherEditPage)
+router.get('/teachers/:id', teacherAuthenticated, teacherControllers.getTeacherPage)
+router.put('/teachers/:id', teacherAuthenticated, teacherControllers.putTeacher)
+router.get('/teachers/:id/edit', teacherAuthenticated, teacherControllers.getTeacherEditPage)
 
-router.get('/lessons/:id', lessonControllers.getLessonPage)
-router.post('/lessons/:id', lessonControllers.postLesson)
+router.get('/lessons/:id', userAuthenticated, lessonControllers.getLessonPage)
+router.post('/lessons/:id', studentAuthenticated, lessonControllers.postLesson)
 
-router.post('/ratings/:teacherId', ratingControllers.postRating)
+router.post('/ratings/:teacherId', studentAuthenticated, ratingControllers.postRating)
 
 router.use('/', (req, res, next) => {
   const user = req.user

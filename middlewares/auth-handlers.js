@@ -10,10 +10,10 @@ const authenticated = (users) => {
       if (users === 'user' && !user.isAdmin) {
         return next()
       }
-      if (users === 'teacher' && user.isTeacher) {
+      if (users === 'teacher' && user.isTeacher && !user.isAdmin) {
         return next()
       }
-      if (users === 'student' && !user.isTeacher) {
+      if (users === 'student' && !user.isTeacher && !user.isAdmin) {
         return next()
       }
       req.flash('error_messages', '沒有權限瀏覽!')
