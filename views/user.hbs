@@ -1,129 +1,126 @@
 {{> add-rating}}
-
-<div class="container-fluid mt-4" style="max-height: 100vh; max-width: 1600px;">
-  <div class="row m-0">
-    <div class="col-md-4 row m-0 mb-5 mx-1">
-      {{#if user.avatar}}
-      <img src="{{user.avatar}}" alt="" class="col-6 col-md-12 rounded-0"
-        style="object-fit:cover; max-width:350px; max-height: 350px;">
-      {{else}}
-      <img src="https://via.placeholder.com/200x200" alt="{{user.name}} avatar" class="col-6 col-md-12 rounded-0"
-        style="object-fit:contain; max-width:350px;">
-      {{/if}}
-      <div class="col-6">
-        <h3 class="h3 fw-bold my-4">{{user.name}}</h3>
-      </div>
-      <div class="mt-3">
-        <h5 class="fw-bold ">
-          {{#if user.nation}}
-          {{user.nation}}
-          {{else}}
-          Earth
-          {{/if}}
-        </h5>
-        <h5 class="fw-bold mt-3">About me</h5>
-        <p>
-          {{#if user.introduction}}
-          {{user.introduction}}
-          {{else}}
-          I am a student of Earth.
-          {{/if}}
-        </p>
-      </div>
-      <div class="">
-        <a href="/users/{{user.id}}/edit" class="btn btn-primary col-4">Edit</a>
+<div class="row gap-4">
+  <div class="col-md-4 row">
+    <div class="col-6 col-md-12" >
+      <div style="width: 100%; max-width:300px;  height: auto;">
+      <img src="{{user.avatar}}" alt="{{user.name}} avatar" class="w-100 h-100" style="object-fit: cover; object-position:center;">
       </div>
     </div>
-    <div class="col-md-7">
-      <div class="mb-4 new-schedule">
-        <h3 class="fw-bold mb-3">New Schedule</h3>
-        <div class="row">
-          {{#if newLessons}}
-          {{#each newLessons as |newLesson|}}
-          <div class="col-sm-6 col-md-12 col-lg-6  mb-3">
-            <div class="card">
-              <div class="card-body">
-                <div class="card-title d-flex flex-wrap gap-2">
-                  <div class="fw-bold">Time:</div>{{specifiedStartTime newLesson.startTime}} ~ {{specifiedEndTime newLesson.endTime}}
-                </div>
-                <div class="card-title d-flex flex-wrap gap-2">
-                  <div class="fw-bold">Teacher's Name:</div>{{newLesson.Teacher.User.name}}
-                </div>
-                <div class="card-title d-flex flex-wrap gap-2">
-                  <div class="fw-bold">Link:</div>
-                  <a href="/" class="text-decoration-none fw-bold">{{newLesson.Teacher.videoLink}}</a>
-                </div>
+    <div class="col-6 col-md-12 d-flex flex-column justify-content-center justify-content-md-between">
+      <h3 class="fw-bold">{{user.name}}</h3>
+      <h5 class="fw-bold  ">
+        {{#if user.nation}}
+        {{user.nation}}
+        {{else}}
+        Earth
+        {{/if}}
+      </h5>
+    </div>
+    <div class="mt-3 mt-md-1">
+      <h5 class="fw-bold">About me</h5>
+      <p>
+        {{#if user.introduction}}
+        {{user.introduction}}
+        {{else}}
+        I am a student of Earth.
+        {{/if}}
+      </p>
+    </div>
+    <div class="">
+      <a href="/users/{{user.id}}/edit" class="btn btn-primary col-4">Edit</a>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="mb-4 new-schedule">
+      <h3 class="fw-bold mb-3">New Schedule</h3>
+      <div class="row">
+        {{#if newLessons}}
+        {{#each newLessons as |newLesson|}}
+        <div class="col-sm-6 col-md-12 col-lg-6  mb-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title d-flex flex-wrap gap-2">
+                <div class="fw-bold">Time:</div>{{specifiedStartTime newLesson.startTime}} ~ {{specifiedEndTime newLesson.endTime}}
+              </div>
+              <div class="card-title d-flex flex-wrap gap-2">
+                <div class="fw-bold">Teacher's Name:</div>{{newLesson.Teacher.User.name}}
+              </div>
+              <div class="card-title d-flex flex-wrap gap-2">
+                <div class="fw-bold">Link:</div>
+                <a href="/" class="text-decoration-none fw-bold">{{newLesson.Teacher.videoLink}}</a>
               </div>
             </div>
           </div>
-          {{/each}}
-          {{else}}
-          <p class="fs-5 my-3 text-secondary text-center border border-2 p-5 rounded-1">目前沒有安排課程!</p>
-          {{/if}}
         </div>
+        {{/each}}
+        {{else}}
+        <div class="col">
+          <p class="fs-5 my-3 text-secondary text-center border border-2 p-5 rounded-1">目前沒有安排課程!</p>
+        </div>
+        {{/if}}
       </div>
+    </div>
 
-      <div class="mb-4 lesson-history">
-        <h3 class="fw-bold mb-3">Lesson History</h3>
-        <div class="row">
-          {{#if lessonsWithoutRating}}
-            {{#each lessonsWithoutRating as |lesson|}}
-              <div class="col-sm-6 col-md-12 col-lg-6  mb-3">
-                <div class="row d-flex align-items-center">
-                  <div class="col-4 col-md-3 text-center">
-                    {{#if lesson.Teacher.User.avatar}}
-                    <img src="{{lesson.Teacher.User.avatar}}" alt="" class="rounded-circle" style="width: 70px;">
-                    {{else}}
-                    <img src="https://via.placeholder.com/200x200" alt="" class="rounded-circle w-80" style="width: 70px;">
-                    {{/if}}
-                  </div>
-                  <div class="col-8 col-md-9">
-                    <div class="card">
-                      <div class="card-body d-flex flex-wrap justify-content-between gap-1 align-items-center">
-                        <p class="fs-6 fw-bold mb-0">{{lesson.Teacher.User.name}}</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ScoreModal{{lesson.Teacher.id}}">Score</button>
-                        <div class="modal fade" id="ScoreModal{{lesson.Teacher.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                          aria-hidden="true">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-body">
-                                <div class="d-flex justify-content-end">
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                                </div>
-                                <h4 class="fw-bold text-center">分享本次的課程體驗</h4>
-                                <form action="/ratings/{{lesson.teacherId}}" method="post" novalidate>
-                                  <input type="text" name="lessonId" value="{{lesson.id}}" style="display: none;">
-                                  <div class="mb-3">
-                                    <label for="name" class="form-label">Teacher's name</label>
-                                    <input type="text" class="form-control" id="name" value="{{lesson.Teacher.User.name}}" disabled readonly>
-                                  </div>
-                                  <div class="mb-3">
-                                    <label for="time" class="form-label">Time</label>
-                                    <input type="text" class="form-control" id="time" value="{{specifiedStartTime lesson.startTime}} ~ {{specifiedEndTime lesson.endTime}}"
-                                      disabled readonly>
-                                  </div>
-                                  <div class="mb-3">
-                                    <label for="rating" class="form-label">Rating</label>
-                                    <input type="text" class="form-control" id="rating" name="rating" pattern="[1-4]+([.][0-9]{1})?|5(\.0)?" inputmode="numeric" required/>
-                                      <div class="invalid-feedback">
-                                        請評分分數(介於 1.0 ~ 5.0 之間)
-                                      </div>
-                                  </div>
-                                  <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Comment</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment" required></textarea>
-                                    <div class="invalid-feedback">
-                                      請留言給老師，給老師建議或是回饋> <&#33;&nbsp;如果沒有打無也行。 
-                                    </div>
-                                  </div>
-                                  <div class="d-flex justify-content-end gap-3">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                  </div>
-
-                                </form>
+    <div class="mb-4 lesson-history">
+      <h3 class="fw-bold mb-3">Lesson History</h3>
+      <div class="row">
+        {{#if lessonsWithoutRating}}
+          {{#each lessonsWithoutRating as |lesson|}}
+            <div class="col-sm-6 col-md-12 col-lg-6  mb-3">
+              <div class="row d-flex align-items-center">
+                <div class="col-4 col-md-3 text-center">
+                  {{#if lesson.Teacher.User.avatar}}
+                  <img src="{{lesson.Teacher.User.avatar}}" alt="" class="rounded-circle" style="width: 70px;">
+                  {{else}}
+                  <img src="https://via.placeholder.com/200x200" alt="" class="rounded-circle w-80" style="width: 70px;">
+                  {{/if}}
+                </div>
+                <div class="col-8 col-md-9">
+                  <div class="card">
+                    <div class="card-body d-flex flex-wrap justify-content-between gap-1 align-items-center">
+                      <p class="fs-6 fw-bold mb-0">{{lesson.Teacher.User.name}}</p>
+                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ScoreModal{{lesson.Teacher.id}}">Score</button>
+                      <div class="modal fade" id="ScoreModal{{lesson.Teacher.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <div class="d-flex justify-content-end">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                  aria-label="Close"></button>
                               </div>
+                              <h4 class="fw-bold text-center">分享本次的課程體驗</h4>
+                              <form action="/ratings/{{lesson.teacherId}}" method="post" novalidate>
+                                <input type="text" name="lessonId" value="{{lesson.id}}" style="display: none;">
+                                <div class="mb-3">
+                                  <label for="name" class="form-label">Teacher's name</label>
+                                  <input type="text" class="form-control" id="name" value="{{lesson.Teacher.User.name}}" disabled readonly>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="time" class="form-label">Time</label>
+                                  <input type="text" class="form-control" id="time" value="{{specifiedStartTime lesson.startTime}} ~ {{specifiedEndTime lesson.endTime}}"
+                                    disabled readonly>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="rating" class="form-label">Rating</label>
+                                  <input type="text" class="form-control" id="rating" name="rating" pattern="[1-4]+([.][0-9]{1})?|5(\.0)?" inputmode="numeric" required/>
+                                    <div class="invalid-feedback">
+                                      請評分分數(介於 1.0 ~ 5.0 之間)
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="exampleFormControlTextarea1" class="form-label">Comment</label>
+                                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment" required></textarea>
+                                  <div class="invalid-feedback">
+                                    請留言給老師，給老師建議或是回饋> <&#33;&nbsp;如果沒有打無也行。 
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-end gap-3">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+
+                              </form>
                             </div>
                           </div>
                         </div>
@@ -132,25 +129,27 @@
                   </div>
                 </div>
               </div>
-            {{/each}}
-          {{else}}
-            <p class="fs-5 my-3 text-secondary text-center border border-2 p-5 rounded-1">目前沒有過去課程還未評價的老師!</p>
-          {{/if}}
-        </div>
-      </div>
-
-      <div class="ranking">
-        <h3 class="fw-bold mb-3">我的學習時數名次</h3>
-        <div class="col-6">
-          <div class="card">
-            <div class="card-body d-flex gap-3">
-              {{#if studentRank}}
-              <div class="card-title fw-bold fs-3">Ranking: </div>
-              <div class="card-text fs-3">{{studentRank.RK}}</div>
-              {{else}}
-              <p class="text-secondary mb-0 p-3 mx-auto">還沒有時數! 趕快開始上課吧!</p>
-              {{/if}}
             </div>
+          {{/each}}
+        {{else}}
+        <div class="col">
+          <p class="fs-5 my-3 text-secondary text-center border border-2 p-5 rounded-1">目前沒有過去課程還未評價的老師!</p>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="ranking">
+      <h3 class="fw-bold mb-3">我的學習時數名次</h3>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body d-flex gap-3">
+            {{#if studentRank}}
+            <div class="card-title fw-bold fs-3">Ranking: </div>
+            <div class="card-text fs-3">{{studentRank.RK}}</div>
+            {{else}}
+            <p class="text-secondary mb-0 p-3 mx-auto">還沒有時數! 趕快開始上課吧!</p>
+            {{/if}}
           </div>
         </div>
       </div>
