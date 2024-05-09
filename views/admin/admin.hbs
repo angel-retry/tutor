@@ -1,4 +1,12 @@
 <div class="container mt-5 ">
+  <div class="col-md-5">
+    <form action="/admin" class="d-flex mb-3">
+      <input class="form-control me-2 py-2" name="keyword" type="search" placeholder="Search" aria-label="Search"
+        value="{{keyword}}">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+  {{#if users}}
   <table class="table table-hover">
     <thead class=" table-primary">
       <tr >
@@ -30,33 +38,36 @@
     <ul class="pagination">
       <li class="page-item">
         {{#ifCond page 1}}
-        <a class="page-link disabled" href="?page={{pagination.prevPage}}" aria-label="Next">
+        <a class="page-link disabled" href="?page={{pagination.prevPage}}&keyword={{keyword}}" aria-label="Next">
           <span aria-hidden="true">&laquo;</span>
         </a>
         {{else}}
-        <a class="page-link" href="?page={{pagination.prevPage}}" aria-label="Next">
+        <a class="page-link" href="?page={{pagination.prevPage}}&keyword={{keyword}}" aria-label="Next">
           <span aria-hidden="true">&laquo;</span>
         </a>
         {{/ifCond}}
       </li>
       {{#each pagination.pages}}
       {{#ifCond this ../page}}
-      <li class="page-item"><a class="page-link active" href="?page={{this}}">{{this}}</a></li>
+      <li class="page-item"><a class="page-link active" href="?page={{this}}&keyword={{../keyword}}">{{this}}</a></li>
       {{else}}
-      <li class="page-item"><a class="page-link" href="?page={{this}}">{{this}}</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{this}}&keyword={{../keyword}}">{{this}}</a></li>
       {{/ifCond}}
       {{/each}}
       <li class="page-item" >
         {{#ifCond page pagination.totalPage}}
-        <a class="page-link disabled" href="?page={{pagination.nextPage}}" aria-label="Next" >
+        <a class="page-link disabled" href="?page={{pagination.nextPage}}&keyword={{keyword}}" aria-label="Next" >
           <span aria-hidden="true">&raquo;</span>
         </a>
         {{else}}
-        <a class="page-link" href="?page={{pagination.nextPage}}"  aria-label="Next">
+        <a class="page-link" href="?page={{pagination.nextPage}}&keyword={{keyword}}"  aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
         </a>
         {{/ifCond}}
       </li>
     </ul>
   </nav>
+  {{else}}
+  <p class="p-5 text-center fw-bold fs-5">沒有查詢到相關資料!</p>
+  {{/if}}
 </div>
