@@ -2,8 +2,8 @@
 <div class="row gap-4">
   <div class="col-md-4 row">
     <div class="col-6 col-md-12" >
-      <div style="width: 100%; max-width:300px;  height: auto;">
-      <img src="{{user.avatar}}" alt="{{user.name}} avatar" class="w-100 h-100" style="object-fit: cover; object-position:center;">
+      <div style="width: 100%; max-width:300px;  height: auto;max-height:300px; overflow:hidden;" >
+      <img src="{{#if user.avatar}}{{user.avatar}}{{else}}https://via.placeholder.com/200x200{{/if}}" alt="{{user.name}} avatar" class="w-100 h-100" style="object-fit: cover; object-position:center;">
       </div>
     </div>
     <div class="col-6 col-md-12 d-flex flex-column justify-content-center justify-content-md-between">
