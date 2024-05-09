@@ -2,39 +2,60 @@
   <table class="table table-hover">
     <thead class=" table-primary">
       <tr >
-        <th scope="col" class="col-4 text-center p-3">編號</th>
-        <th scope="col" class="col-4 text-center p-3">名字</th>
-        <th scope="col" class="col-4 text-center p-3">是否成為老師</th>
+        <th scope="col" class="col-3 text-center p-3">ID</th>
+        <th scope="col" class="col-3 text-center p-3">名字</th>
+        <th scope="col" class="col-3 text-center p-3">email</th>
+        <th scope="col" class="col-3 text-center p-3">是否成為老師</th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
+      {{#each users}}
       <tr>
-        <th scope="row" class="col-4 text-center p-3">1</th>
-        <td class="col-4 text-center p-3">Name</td>
-        <td class="col-4 text-center p-3">老師</td>
+        <th scope="row" class="col-3 text-center p-3">{{this.id}}</th>
+        <td class="col-3 text-center p-3">{{this.name}}</td>
+        <th scope="row" class="col-3 text-center p-3">{{this.email}}</th>
+        <td class="col-3 text-center p-3">
+          {{#if this.isTeacher}}
+          老師
+          {{else}}
+          學生
+          {{/if}}
+        </td>
       </tr>
-      <tr>
-        <th scope="row" class="col-4 text-center p-3">2</th>
-        <td class="col-4 text-center p-3">Name</td>
-        <td class="col-4 text-center p-3">學生</td>
-      </tr>
+      {{/each}}
     </tbody>
   </table>
 
   <nav aria-label="Page navigation" class="d-flex justify-content-center mt-3">
     <ul class="pagination">
       <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
+        {{#ifCond page 1}}
+        <a class="page-link disabled" href="?page={{pagination.prevPage}}" aria-label="Next">
           <span aria-hidden="true">&laquo;</span>
         </a>
+        {{else}}
+        <a class="page-link" href="?page={{pagination.prevPage}}" aria-label="Next">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+        {{/ifCond}}
       </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
+      {{#each pagination.pages}}
+      {{#ifCond this ../page}}
+      <li class="page-item"><a class="page-link active" href="?page={{this}}">{{this}}</a></li>
+      {{else}}
+      <li class="page-item"><a class="page-link" href="?page={{this}}">{{this}}</a></li>
+      {{/ifCond}}
+      {{/each}}
+      <li class="page-item" >
+        {{#ifCond page pagination.totalPage}}
+        <a class="page-link disabled" href="?page={{pagination.nextPage}}" aria-label="Next" >
           <span aria-hidden="true">&raquo;</span>
         </a>
+        {{else}}
+        <a class="page-link" href="?page={{pagination.nextPage}}"  aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+        {{/ifCond}}
       </li>
     </ul>
   </nav>
