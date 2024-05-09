@@ -8,18 +8,32 @@ const userControllers = {
     if (userId !== req.user?.id) throw new Error('沒有權限看此資料!')
     Promise.all([
       Lesson.findAll({
-        include: [{ model: Teacher, include: [User] }],
+        include: [{
+          model: Teacher,
+          attributes: ['videoLink'],
+          include: [{
+            model: User,
+            attributes: ['id', 'name']
+          }]
+        }],
         where: {
           studentId: userId,
           startTime: {
             [Op.gt]: new Date()
           }
-        }
+        },
+        order: [['createdAt', 'DESC']]
       }),
       Lesson.findAll({
         include: [
-          { model: Teacher, include: [User], attributes: ['id'] },
-          { model: Rating, require: false }
+          {
+            model: Teacher,
+            attributes: ['id'],
+            include: [
+              { model: User, attributes: ['id', 'name', 'avatar'] }
+            ]
+          },
+          { model: Rating, attributes: ['id', 'teacherId', 'studentId'], require: false }
         ],
         where: {
           studentId: userId,
@@ -96,7 +110,7 @@ const userControllers = {
     ])
       .then(([filePath, user]) => {
         if (!user) throw new Error('找不到此使用者。')
-        return user.update({ name, nation, avatar: filePath, introduction })
+        return user.update({ name, nation, avatar: filePath || avatar, introduction })
           .then(() => {
             req.flash('success_messages', '修改成功!')
             return res.redirect(`/users/${userId}`)
