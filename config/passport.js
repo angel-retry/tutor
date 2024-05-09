@@ -25,10 +25,10 @@ passport.use(new GoogleStrategy({
         .then(hashPassword => {
           return User.create({ name, email, password: hashPassword, avatar })
         })
-        .then(() => {
-          user.isAdmin = false
-          user.isTeacher = false
-          return cb(null, user)
+        .then((newUser) => {
+          newUser.isAdmin = false
+          newUser.isTeacher = false
+          return cb(null, newUser)
         })
         .catch(err => cb(err))
     })
