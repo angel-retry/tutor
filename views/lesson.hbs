@@ -11,7 +11,13 @@
       <div class="col-6 col-md-3 col-lg-5 d-flex flex-column justify-content-center gap-2">
         <h3 class="fw-bold">{{teacher.User.name}}</h3>
         <div class="d-flex flex-column ">
-          <p class="fs-6 fw-bold mb-1">{{teacher.User.nation}}</p>
+          <p class="fs-6 fw-bold mb-1">
+            {{#if teacher.User.nation}}
+            {{teacher.User.nation}}
+            {{else}}
+            Earth
+            {{/if}}
+          </p>
           <div class="fw-bold">
             {{#if teacher.totalRating}}
             <i class="fa-solid fa-heart me-2" style="color: red;"></i>

@@ -20,7 +20,13 @@
                   </div>
                   <div class="col-6 d-flex flex-column justify-content-center">
                     <h5 class="fw-bold">{{teacher.User.name}}</h5>
-                    <p>{{teacher.User.nation}}</p>
+                    <p>
+                    {{#if teacher.User.nation}}
+                    {{teacher.User.nation}}
+                    {{else}}
+                    Earth
+                    {{/if}}
+                    </p>
                   </div>
                 </div>
                 <div class="card-title mt-4 fw-bold">

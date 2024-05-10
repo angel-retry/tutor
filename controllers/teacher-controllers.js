@@ -1,3 +1,4 @@
+const localFileHandler = require('../helpers/file-helpers')
 const { Teacher, User, Lesson, Rating, Sequelize } = require('../models')
 const { Op } = require('sequelize')
 
@@ -64,7 +65,8 @@ const teacherControllers = {
       .catch(err => next(err))
   },
   createTeacher: (req, res, next) => {
-    const { courseDescription, teachingMethod, lessonDuration, availableDays, videoLink } = req.body
+    const { courseDescription, teachingMethod, lessonDuration, availableDays, videoLink, name, avatar, nation } = req.body
+    const { file } = req
     if (!courseDescription || !teachingMethod || !lessonDuration || !availableDays || !videoLink) throw new Error('請填入完整資料!')
     console.log({ courseDescription, teachingMethod, lessonDuration, availableDays, videoLink })
 
@@ -82,14 +84,16 @@ const teacherControllers = {
             availableDays: parsedAvailableDays,
             videoLink
           }),
-          User.update({
-            isTeacher: true
-          }, {
-            where: {
-              id: req.user.id
-            }
-          })
+          localFileHandler(file)
         ])
+      })
+      .then(([teacher, filePath]) => {
+        return User.update({
+          isTeacher: true,
+          name,
+          avatar: filePath || avatar,
+          nation
+        }, { where: { id: teacher.id } })
       })
       .then(() => {
         req.flash('success', '恭喜開課成功!')
@@ -100,7 +104,8 @@ const teacherControllers = {
   putTeacher: (req, res, next) => {
     const teacherId = Number(req.params.id)
     if (teacherId !== req.user.id) throw new Error('沒有權限修改此資料!')
-    const { courseDescription, teachingMethod, lessonDuration, availableDays, videoLink } = req.body
+    const { courseDescription, teachingMethod, lessonDuration, availableDays, videoLink, nation, name, avatar } = req.body
+    const { file } = req
     const courseDescriptionInput = courseDescription.trim()
     const teachingMethodInput = teachingMethod.trim()
     console.log({ courseDescription, teachingMethod, lessonDuration, availableDays, videoLink })
@@ -110,13 +115,23 @@ const teacherControllers = {
     Teacher.findByPk(teacherId)
       .then(teacher => {
         if (!teacher) throw new Error('找不到此使用者。')
-        return teacher.update({
-          courseDescription: courseDescriptionInput,
-          teachingMethod: teachingMethodInput,
-          lessonDuration,
-          availableDays: parsedAvailableDays,
-          videoLink
-        })
+        return Promise.all([
+          teacher.update({
+            courseDescription: courseDescriptionInput,
+            teachingMethod: teachingMethodInput,
+            lessonDuration,
+            availableDays: parsedAvailableDays,
+            videoLink
+          }),
+          localFileHandler(file)
+        ])
+      })
+      .then(([teacher, filePath]) => {
+        return User.update({
+          name,
+          nation,
+          avatar: filePath || avatar
+        }, { where: { id: teacher.id } })
       })
       .then(() => {
         req.flash('success_messages', '修改成功!')

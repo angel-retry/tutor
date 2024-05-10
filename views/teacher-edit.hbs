@@ -1,6 +1,6 @@
 <div class="container mt-5">
   <h4 class="fw-bold mb-3">修改老師資料</h4>
-  <form action="/teachers/{{user.id}}?_method=PUT" method="post" class="col-10 mb-5">
+  <form action="/teachers/{{user.id}}?_method=PUT" method="post" class="col-10 mb-5" enctype="multipart/form-data">
     {{> teacher-form}}
     <div class="d-flex gap-3">
       <a type="button" class="btn btn-outline-secondary px-4" href="/teachers/{{teacher.id}}">Back</a>

@@ -20,10 +20,10 @@ router.get('/users/:id', studentAuthenticated, userControllers.getUserPage)
 router.put('/users/:id', studentAuthenticated, upload.single('avatar'), userControllers.putUser)
 router.get('/users/:id/edit', studentAuthenticated, userControllers.getUserEditPage)
 
-router.post('/teachers/create', studentAuthenticated, teacherControllers.createTeacher)
+router.post('/teachers/create', studentAuthenticated, upload.single('avatar'), teacherControllers.createTeacher)
 router.get('/teachers/create', studentAuthenticated, teacherControllers.getTeacherCreatePage)
 router.get('/teachers/:id', teacherAuthenticated, teacherControllers.getTeacherPage)
-router.put('/teachers/:id', teacherAuthenticated, teacherControllers.putTeacher)
+router.put('/teachers/:id', teacherAuthenticated, upload.single('avatar'), teacherControllers.putTeacher)
 router.get('/teachers/:id/edit', teacherAuthenticated, teacherControllers.getTeacherEditPage)
 
 router.get('/lessons/:id', userAuthenticated, lessonControllers.getLessonPage)
