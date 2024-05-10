@@ -22,9 +22,9 @@
         <h5 class="fw-bold">About me</h5>
         <p>
           {{#if user.introduction}}
-          {{user.introduction}}
+          {{{formattedText user.introduction}}}
           {{else}}
-          I am a student of Earth.
+          I am a student of Earth."<br>"
           {{/if}}
         </p>
       </div>

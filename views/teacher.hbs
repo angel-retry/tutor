@@ -27,7 +27,7 @@
         <h5 class="fw-bold">My Course Description</h5>
         <p>
           {{#if teacher.courseDescription}}
-          {{teacher.courseDescription}}
+          {{{formattedText teacher.courseDescription}}}
           {{else}}
           I am a student of Earth.
           {{/if}}
@@ -67,7 +67,7 @@
     <div class="mb-4 lesson-history">
       <h3 class="fw-bold mb-3">Your Teaching Style</h3>
       <p class="">
-        {{teacher.teachingMethod}}
+        {{{formattedText teacher.teachingMethod}}}
       </p>
     </div>
 

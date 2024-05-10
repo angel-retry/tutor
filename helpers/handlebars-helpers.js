@@ -27,5 +27,9 @@ module.exports = {
     dates.push(endTime)
 
     return dates
+  },
+  formattedText: function (text) {
+    console.log('text', text.replace(/\r\n/g, '<br>').replace(/\r/g, '&nbsp;'))
+    return text.replace(/\r\n/g, '<br>').replace(/\r/g, '&nbsp;')
   }
 }

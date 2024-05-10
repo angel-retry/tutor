@@ -39,7 +39,11 @@ const teacherControllers = {
       order: [[Lesson, 'createdAt', 'DESC']]
     })
       .then(teacher => {
-        teacher = teacher.toJSON()
+        if (!teacher) throw new Error('沒有這為使用者老師的資料!')
+        teacher = {
+          ...teacher.toJSON()
+        }
+        console.log('teacher', teacher)
         return res.render('teacher', { teacher })
       })
       .catch(err => next(err))
@@ -63,16 +67,19 @@ const teacherControllers = {
     const { courseDescription, teachingMethod, lessonDuration, availableDays, videoLink } = req.body
     if (!courseDescription || !teachingMethod || !lessonDuration || !availableDays || !videoLink) throw new Error('請填入完整資料!')
     console.log({ courseDescription, teachingMethod, lessonDuration, availableDays, videoLink })
+
+    const parsedAvailableDays = availableDays.map(day => Number(day))
+
     Teacher.findByPk(req.user.id)
       .then(teacher => {
         if (teacher) throw new Error('此使用者已成為老師!')
-        Promise.all([
+        return Promise.all([
           Teacher.create({
             id: req.user.id,
             courseDescription,
             teachingMethod,
             lessonDuration,
-            availableDays,
+            availableDays: parsedAvailableDays,
             videoLink
           }),
           User.update({
@@ -94,6 +101,8 @@ const teacherControllers = {
     const teacherId = Number(req.params.id)
     if (teacherId !== req.user.id) throw new Error('沒有權限修改此資料!')
     const { courseDescription, teachingMethod, lessonDuration, availableDays, videoLink } = req.body
+    const courseDescriptionInput = courseDescription.trim()
+    const teachingMethodInput = teachingMethod.trim()
     console.log({ courseDescription, teachingMethod, lessonDuration, availableDays, videoLink })
     if (!courseDescription || !teachingMethod || !lessonDuration || !availableDays || !videoLink) throw new Error('請填入完整資料!')
 
@@ -102,8 +111,8 @@ const teacherControllers = {
       .then(teacher => {
         if (!teacher) throw new Error('找不到此使用者。')
         return teacher.update({
-          courseDescription,
-          teachingMethod,
+          courseDescription: courseDescriptionInput,
+          teachingMethod: teachingMethodInput,
           lessonDuration,
           availableDays: parsedAvailableDays,
           videoLink
