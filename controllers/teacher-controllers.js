@@ -70,7 +70,7 @@ const teacherControllers = {
     if (!courseDescription || !teachingMethod || !lessonDuration || !availableDays || !videoLink) throw new Error('請填入完整資料!')
     console.log({ courseDescription, teachingMethod, lessonDuration, availableDays, videoLink })
 
-    const parsedAvailableDays = availableDays.map(day => Number(day))
+    const parsedAvailableDays = availableDays.length > 1 ? availableDays.map(day => Number(day)) : [Number(availableDays)]
 
     Teacher.findByPk(req.user.id)
       .then(teacher => {
@@ -111,7 +111,8 @@ const teacherControllers = {
     console.log({ courseDescription, teachingMethod, lessonDuration, availableDays, videoLink })
     if (!courseDescription || !teachingMethod || !lessonDuration || !availableDays || !videoLink) throw new Error('請填入完整資料!')
 
-    const parsedAvailableDays = availableDays.map(day => Number(day))
+    const parsedAvailableDays = availableDays.length > 1 ? availableDays.map(day => Number(day)) : [Number(availableDays)]
+
     Teacher.findByPk(teacherId)
       .then(teacher => {
         if (!teacher) throw new Error('找不到此使用者。')
