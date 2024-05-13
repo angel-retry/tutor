@@ -4,6 +4,7 @@ const { User, Admin } = require('../models')
 const bcrypt = require('bcryptjs')
 const GoogleStrategy = require('passport-google-oauth2').Strategy
 
+// local策略
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -16,6 +17,7 @@ passport.use(new GoogleStrategy({
   User.findOne({ where: { email } })
     .then(user => {
       if (user) {
+        // 可加入資料判斷身分權限
         user.isAdmin = false
         user.isTeacher = false
         return cb(null, user)
@@ -35,19 +37,23 @@ passport.use(new GoogleStrategy({
     .catch(err => cb(err))
 }))
 
+// google策略
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passReqToCallback: true
 }, (req, email, password, cb) => {
+  // User 和 Admin一起搜尋是否有這個信箱
   Promise.all([
     User.findOne({ where: { email } }),
     Admin.findOne({ where: { email } })
   ])
     .then(([user, admin]) => {
+      // 兩者都沒有表示使用者帳密輸入錯誤
       if (!user && !admin) {
         return cb(null, false, req.flash('error_messages', '帳號密碼輸入錯誤!'))
       }
 
+      // 有user為一般使用者
       if (user) {
         return bcrypt.compare(password, user.password)
           .then(isMatch => {
@@ -60,11 +66,12 @@ passport.use(new LocalStrategy({
           .catch(err => cb(err))
       }
 
+      // 有admin為管理者
       if (admin) {
         return bcrypt.compare(password, admin.password)
           .then(isMatch => {
             if (!isMatch) {
-              return cb(null, false, req.flash('error_message', '帳號密碼輸入錯誤!'))
+              return cb(null, false, req.flash('error_messages', '帳號密碼輸入錯誤!'))
             }
             admin.isAdmin = true
             return cb(null, admin)
@@ -75,7 +82,9 @@ passport.use(new LocalStrategy({
     .catch(err => cb(err))
 }))
 
+// 序列化
 passport.serializeUser((user, cb) => {
+  // 加入各個不同身分屬性，以便於反序列化判斷
   if (user.isAdmin) {
     return cb(null, { id: user.id, email: user.email, isAdmin: user.isAdmin })
   }
@@ -87,7 +96,9 @@ passport.serializeUser((user, cb) => {
   }
 })
 
+// 反序列化
 passport.deserializeUser((user, cb) => {
+  // 判斷登入者身分，傳輸不同的身分資訊
   if (user.isAdmin) {
     return Admin.findOne({ where: { email: user.email } })
       .then((admin) => {
