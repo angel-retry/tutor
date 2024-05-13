@@ -7,7 +7,7 @@ const ratingControllers = {
     const { rating, comment, lessonId } = req.body
     if (!rating || !comment) throw new Error('請評分和寫評論!')
     if (!lessonId) throw new Error('沒有取得課堂資料!')
-    console.log({ userId, teacherId, rating: Number(rating), comment, lessonId })
+
     Promise.all([
       Rating.findOne({
         where: {
@@ -16,36 +16,33 @@ const ratingControllers = {
           lessonId
         }
       }),
-      Lesson.findByPk(lessonId)
+      Lesson.findByPk(lessonId, {
+        attributes: ['start_time', 'end_time'],
+        include: [
+          {
+            model: Teacher,
+            attributes: ['id'],
+            include: [
+              { model: User, attributes: ['id', 'name'] }
+            ]
+          }
+        ]
+      })
     ])
-
       .then(([ratingData, lesson]) => {
         if (ratingData) throw new Error('已評過這位老師了!')
         if (!lesson) throw new Error('沒有這堂課資料!')
-        return Rating.create({
+        // 查出沒有評分過這位老師且有這堂課就可以評分這位老師
+        Rating.create({
           studentId: userId,
           teacherId,
           rating: Number(rating),
           comment,
           lessonId
         })
-      })
-      .then(() => {
-        Lesson.findByPk(lessonId, {
-          attributes: ['start_time', 'end_time'],
-          include: [
-            {
-              model: Teacher,
-              attributes: ['id'],
-              include: [
-                { model: User, attributes: ['id', 'name'] }
-              ]
-            }
-          ]
-        })
-          .then(newRatingLessonData => {
-            newRatingLessonData = newRatingLessonData.toJSON()
-            console.log('newRatingLessonData', newRatingLessonData)
+          .then(() => {
+            // 回傳評分成功的資料
+            const newRatingLessonData = lesson.toJSON()
             const newRatingData = {
               teacherId: newRatingLessonData.Teacher.id,
               teacherName: newRatingLessonData.Teacher.User.name,
@@ -61,6 +58,7 @@ const ratingControllers = {
             req.flash('add_rating_success', ratingJsonString)
             return res.redirect(`/users/${userId}`)
           })
+          .catch(err => next(err))
       })
       .catch(err => next(err))
   }
