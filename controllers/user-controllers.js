@@ -80,8 +80,6 @@ const userControllers = {
           : null
         const getStudentRank = studentsLessonsRanks.find(lesson => lesson.student_id === userId)
         const studentRank = getStudentRank ? getStudentRank.toJSON() : null
-        console.log('ranks', studentRank)
-        console.log('lessonsWithoutRating', lessonsWithoutRating)
         return res.render('user', { newLessons, lessonsWithoutRating, studentRank })
       })
   },
@@ -102,7 +100,6 @@ const userControllers = {
     const { name, nation, avatar, introduction } = req.body
     const { file } = req
     if (!name) throw new Error('請填入姓名!')
-    console.log({ name, nation, avatar, introduction })
 
     Promise.all([
       localFileHandler(file),

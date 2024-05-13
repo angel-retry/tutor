@@ -24,7 +24,7 @@
           {{#if user.introduction}}
           {{{formattedText user.introduction}}}
           {{else}}
-          I am a student of Earth."<br>"
+          I am a student of Earth.
           {{/if}}
         </p>
       </div>
@@ -50,7 +50,7 @@
               </div>
               <div class="card-title d-flex flex-wrap gap-2">
                 <div class="fw-bold">Link:</div>
-                <a href="/" class="text-decoration-none fw-bold">{{newLesson.Teacher.videoLink}}</a>
+                <a href="{{newLesson.Teacher.videoLink}}" class="text-decoration-none fw-bold" target="_blank">{{newLesson.Teacher.videoLink}}</a>
               </div>
             </div>
           </div>

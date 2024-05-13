@@ -1,33 +1,33 @@
 <div class="mb-3 col-md-5">
   <label for="name" class="form-label fw-bold">Name</label>
-  <input type="text" class="form-control" id="name" name="name" value="{{user.name}}" placeholder="你的名字" />
+  <input type="text" class="form-control" id="name" name="name" value="{{user.name}}" placeholder="你的名字" required/>
 </div>
 <div class="mb-3 col-md-5">
   <label for="nation" class="form-label fw-bold">Nation</label>
   <input type="text" class="form-control" id="nation" name="nation" value="{{user.nation}}"
-    placeholder="你的居住地" />
+    placeholder="你的居住地" required />
 </div>
 <div class="mb-3 col-md-5">
   <label for="avatar" class="form-label fw-bold">Avatar</label>
-  <input type="file" class="form-control" id="avatar" name="avatar" value="{{user.avatar}}"  />
+  <input type="file" class="form-control" id="avatar" name="avatar" value="{{user.avatar}}" />
 </div>
 <div class="mb-3">
   <label for="courseDescription" class="form-label fw-bold">Your Course Description</label>
   <textarea class="form-control" id="courseDescription" name="courseDescription" placeholder="介紹你的課程"
-    rows="5">{{teacher.courseDescription}}</textarea>
+    rows="5" required>{{teacher.courseDescription}}</textarea>
 </div>
 <div class="mb-3">
   <label for="teachingMethod" class="form-label fw-bold">Your Teaching Style</label>
   <textarea class="form-control" id="teachingMethod" name="teachingMethod" placeholder="介紹你的教學方式"
-    rows="5">{{teacher.teachingMethod}}</textarea>
+    rows="5" required>{{teacher.teachingMethod}}</textarea>
 </div>
 <div class="mb-3">
   <label for="lessonDuration" class="form-label fw-bold">單堂課程時間 (分鐘)</label>
-  <select class="form-select" aria-label="Default select example" id="lessonDuration" name="lessonDuration">
+  <select class="form-select" aria-label="Default select example" id="lessonDuration" name="lessonDuration" required>
     {{#if teacher.lessonDuration}}
     <option value="{{teacher.lessonDuration}}">{{teacher.lessonDuration}}分鐘</option>
     {{else}}
-    <option selected disabled>請選擇時間</option>
+    <option selected disabled value="">請選擇時間</option>
     {{/if}}
     <option value="30">30分鐘</option>
     <option value="60">60分鐘</option>

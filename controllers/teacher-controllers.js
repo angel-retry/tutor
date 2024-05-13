@@ -88,15 +88,22 @@ const teacherControllers = {
         ])
       })
       .then(([teacher, filePath]) => {
-        return User.update({
-          isTeacher: true,
-          name,
-          avatar: filePath || avatar,
-          nation
-        }, { where: { id: teacher.id } })
+        return Promise.all([
+          User.update({
+            isTeacher: true,
+            name,
+            avatar: filePath || avatar,
+            nation
+          }, { where: { id: teacher.id } }),
+          Lesson.destroy({
+            where: {
+              studentId: req.user.id
+            }
+          })
+        ])
       })
       .then(() => {
-        req.flash('success', '恭喜開課成功!')
+        req.flash('success_messages', '恭喜開課成功!')
         return res.redirect(`/teachers/${req.user.id}`)
       })
       .catch(err => next(err))

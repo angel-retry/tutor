@@ -3,7 +3,6 @@ const { ensureAuthenticated, getUser } = require('../helpers/auth-helpers')
 const authenticated = (users) => {
   return (req, res, next) => {
     const user = getUser(req)
-    console.log('auth-handler', user)
     if (ensureAuthenticated(req)) {
       if (users === 'admin' && user.isAdmin) {
         return next()

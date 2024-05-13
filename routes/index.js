@@ -26,8 +26,8 @@ router.get('/teachers/:id', teacherAuthenticated, teacherControllers.getTeacherP
 router.put('/teachers/:id', teacherAuthenticated, upload.single('avatar'), teacherControllers.putTeacher)
 router.get('/teachers/:id/edit', teacherAuthenticated, teacherControllers.getTeacherEditPage)
 
-router.get('/lessons/:id', userAuthenticated, lessonControllers.getLessonPage)
-router.post('/lessons/:id', studentAuthenticated, lessonControllers.postLesson)
+router.get('/lessons/:teacherId', userAuthenticated, lessonControllers.getLessonPage)
+router.post('/lessons/:teacherId', studentAuthenticated, lessonControllers.postLesson)
 
 router.post('/ratings/:teacherId', studentAuthenticated, ratingControllers.postRating)
 

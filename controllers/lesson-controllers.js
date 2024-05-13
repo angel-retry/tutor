@@ -4,7 +4,7 @@ const { getTeacherAvailableDates, getStartTimeAndEndTime, getFilterAvailableSlot
 
 const lessonControllers = {
   getLessonPage: (req, res) => {
-    const teacherId = req.params.id
+    const teacherId = req.params.teacherId
     Teacher.findByPk(teacherId, {
       include: [User, Rating, Lesson],
       attributes: {
@@ -35,7 +35,7 @@ const lessonControllers = {
   },
   postLesson: (req, res, next) => {
     const { createLesson } = req.body
-    const teacherId = req.params.id
+    const teacherId = req.params.teacherId
     if (!createLesson) throw new Error('請選擇時間!')
     console.log('createLesson', createLesson)
     const [startTime, endTime] = createLesson.split(',').map(dateString => new Date(dateString))
@@ -120,7 +120,6 @@ const lessonControllers = {
       .then(() => {
         const lesson = { startTime, endTime }
         const lessonJsonString = JSON.stringify(lesson)
-        console.log('lessonJsonString', lessonJsonString)
         req.flash('add_lesson_success', lessonJsonString)
         return res.redirect(`/lessons/${teacherId}`)
       })
