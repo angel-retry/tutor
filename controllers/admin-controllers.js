@@ -8,15 +8,21 @@ const adminControllers = {
     const page = Number(req.query.page) || 1
     const offset = getOffset(page, limit)
     const keyword = req.query.keyword?.trim() || ''
+
+    // 搜尋條件
     let searchCondition = {}
+
+    // 關鍵字為學生，條件如下
     if (keyword === '學生') {
       searchCondition = {
         isTeacher: false
       }
+    // 關鍵字為老師，條件如下
     } else if (keyword === '老師') {
       searchCondition = {
         isTeacher: true
       }
+    // 其他關鍵字
     } else if (keyword) {
       searchCondition =
         {
