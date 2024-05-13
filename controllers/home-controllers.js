@@ -9,6 +9,7 @@ const homeControllers = {
     const offset = getOffset(page, limit)
 
     const keyword = req.query.keyword?.trim() || ''
+    // 搜尋條件，判斷是否有關鍵字才會增加以下內容
     const searchCondition = keyword
       ? {
           [Op.or]: [
@@ -34,10 +35,12 @@ const homeControllers = {
       Lesson.findAll({
         attributes: [
           'student_id',
+          // 新增一個欄位，為課堂的總時數
           [
             Sequelize.literal('SUM(TIMESTAMPDIFF(SECOND, start_time, end_time))'),
             'totalDuration'
           ],
+          // 新增一個欄位，為課堂的總時數RANK()
           [
             Sequelize.literal('RANK() OVER (ORDER BY SUM(TIMESTAMPDIFF(SECOND, start_time, end_time)) DESC)'),
             'RK'
@@ -46,15 +49,19 @@ const homeControllers = {
         include: [
           { model: User, attributes: ['id', 'name', 'avatar'] }
         ],
+        // 只能選取過去時間
         where: {
           end_time: {
             [Op.lt]: new Date()
           }
         },
+        // 用studentId進行分組
         group: ['student_id'],
+        // 根據totalDuration進行DESC排序
         order: [[Sequelize.literal('totalDuration'), 'DESC']],
         raw: true,
         nest: true,
+        // 只能前10筆資料(也就是前10名)
         limit: 10
       })
     ])
