@@ -36,6 +36,7 @@ app.use((req, res, next) => {
   const addLessonErrorStudent = req.flash('add_lesson_error_student')
   const addLessonSuccess = req.flash('add_lesson_success')
   const addRatingSuccess = req.flash('add_rating_success')
+  const weekdays = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']
 
   res.locals.success_messages = req.flash('success_messages')
   res.locals.error_messages = req.flash('error_messages')
@@ -44,6 +45,10 @@ app.use((req, res, next) => {
   res.locals.add_lesson_success = getAddLessonMessage(addLessonSuccess)
   res.locals.add_rating_success = getAddLessonMessage(addRatingSuccess)
   res.locals.user = getUser(req)
+  res.locals.indexWeekdays = weekdays.map((day, i) => ({
+    index: i,
+    day
+  }))
   next()
 })
 

@@ -2,21 +2,17 @@ const localFileHandler = require('../helpers/file-helpers')
 const { Teacher, User, Lesson, Rating, Sequelize } = require('../models')
 const { Op } = require('sequelize')
 
-const weekdays = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']
-
 const teacherControllers = {
   getTeacherCreatePage: (req, res) => {
-    const indexWeekdays = weekdays.map((day, i) => ({
-      index: i,
-      day
-    }))
-    return res.render('teacher-create', { indexWeekdays })
+    return res.render('teacher-create')
   },
   getTeacherPage: (req, res, next) => {
     const teacherId = Number(req.params.id)
     if (teacherId !== req.user.id) throw new Error('沒有權限看此資料!')
+
     Teacher.findByPk(teacherId, {
       include: [
+        // 取得未來課程關聯資料
         {
           model: Lesson,
           include: [{ model: User, attributes: ['id', 'name'] }],
@@ -27,16 +23,19 @@ const teacherControllers = {
           },
           required: false
         },
+        // 取得評分關聯資料
         Rating
       ],
       attributes: [
         'id',
         'courseDescription',
         'teachingMethod',
+        // 取得總評分數
         [
           Sequelize.literal('(SELECT ROUND(AVG(rating), 1) FROM Ratings WHERE Ratings.teacher_id = Teacher.id)'), 'totalRating'
         ]
       ],
+      // 課程關聯資料要從新創建立的開始
       order: [[Lesson, 'createdAt', 'DESC']]
     })
       .then(teacher => {
@@ -44,7 +43,6 @@ const teacherControllers = {
         teacher = {
           ...teacher.toJSON()
         }
-        console.log('teacher', teacher)
         return res.render('teacher', { teacher })
       })
       .catch(err => next(err))
@@ -52,15 +50,14 @@ const teacherControllers = {
   getTeacherEditPage: (req, res, next) => {
     const teacherId = Number(req.params.id)
     if (teacherId !== req.user.id) throw new Error('沒有權限修改此資料')
+
     Teacher.findByPk(teacherId)
       .then(teacher => {
         if (!teacher) throw new Error('找不到此使用者。')
+
         teacher = teacher.toJSON()
-        const indexWeekdays = weekdays.map((day, i) => ({
-          index: i,
-          day
-        }))
-        return res.render('teacher-edit', { teacher, indexWeekdays })
+
+        return res.render('teacher-edit', { teacher })
       })
       .catch(err => next(err))
   },
@@ -115,7 +112,6 @@ const teacherControllers = {
     const { file } = req
     const courseDescriptionInput = courseDescription.trim()
     const teachingMethodInput = teachingMethod.trim()
-    console.log({ courseDescription, teachingMethod, lessonDuration, availableDays, videoLink })
     if (!courseDescription || !teachingMethod || !lessonDuration || !availableDays || !videoLink) throw new Error('請填入完整資料!')
 
     const parsedAvailableDays = availableDays.length > 1 ? availableDays.map(day => Number(day)) : [Number(availableDays)]

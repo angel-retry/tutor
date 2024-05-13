@@ -50,8 +50,8 @@
   <div class="fw-bold d-flex flex-wrap gap-3 gap-md-5">
     {{#each indexWeekdays}}
     <div class="form-check">
-      <input class="form-check-input border border-3 border-primary" type="checkbox" value="{{this.index}}"
-        name="availableDays" {{#ifIncludes ../teacher.availableDays this.index}}checked{{/ifIncludes}}>
+      <input class="form-check-input border border-3 border-primary" type="checkbox" value="{{this.index}}" name="availableDays"
+        {{#ifIncludes ../teacher.availableDays this.index}}checked{{/ifIncludes}}>
       <label class="form-check-label" for="flexCheckDefault">
         {{this.day}}
       </label>
