@@ -5,10 +5,13 @@ const { getTeacherAvailableDates, getStartTimeAndEndTime, getFilterAvailableSlot
 const lessonControllers = {
   getLessonPage: (req, res) => {
     const teacherId = req.params.teacherId
+
     Teacher.findByPk(teacherId, {
       include: [User, Rating, Lesson],
       attributes: {
+        // 加入include表示原資料表的欄位也要包括進去
         include: [
+          // 選取老師的rating總評分
           [
             Sequelize.literal('(SELECT ROUND(AVG(rating), 1) FROM Ratings WHERE Ratings.teacher_id = Teacher.id)'), 'totalRating'
           ]
@@ -17,12 +20,13 @@ const lessonControllers = {
     })
       .then((teacher) => {
         teacher = teacher.toJSON()
-        // 取得老師可以的日子
+        // 取得老師可以上課的日子
         const teacherAvailableDays = getTeacherAvailableDates(teacher.availableDays)
-        // 取得老師可以的日子及上課時間表
+        // 取得老師可以上課的日子及詳細時間表
         const teacherAvailableDates = teacherAvailableDays.flatMap(day => {
           return getStartTimeAndEndTime(day, teacher.lessonDuration)
         })
+        // 過濾出老師可以上課的時間
         const filteredAvailableDates = getFilterAvailableSlots(teacherAvailableDates, teacher.Lessons)
 
         // console.log('teacherAvailableDays', teacherAvailableDays)
@@ -37,12 +41,13 @@ const lessonControllers = {
     const { createLesson } = req.body
     const teacherId = req.params.teacherId
     if (!createLesson) throw new Error('請選擇時間!')
-    console.log('createLesson', createLesson)
+
+    // startTime, endTime將從createLesson分離成變數，型態為date
     const [startTime, endTime] = createLesson.split(',').map(dateString => new Date(dateString))
-    console.log({ startTime, endTime })
 
     Promise.all([
       Lesson.findAll({
+        // 檢查老師是否有撞期課程
         where: {
           teacherId,
           [Op.or]: [
@@ -67,6 +72,7 @@ const lessonControllers = {
           ]
         }
       }),
+      // 檢查學生是否有撞期課程
       Lesson.findAll({
         include: [{
           model: Teacher,
@@ -99,17 +105,19 @@ const lessonControllers = {
       })
     ])
       .then(([checkTeacherLesson, checkStudentLesson]) => {
-        console.log('lesson', checkStudentLesson)
+        // 如果老師課程撞期，送出錯誤
         if (checkTeacherLesson.length > 0) {
           const lessonJsonString = JSON.stringify(checkTeacherLesson[0])
           req.flash('add_lesson_error_teacher', lessonJsonString)
           return res.redirect(`/lessons/${teacherId}`)
         }
+        // 如果學生課程撞期，送出錯誤
         if (checkStudentLesson.length > 0) {
           const lessonJsonString = JSON.stringify(checkStudentLesson[0])
           req.flash('add_lesson_error_student', lessonJsonString)
           return res.redirect(`/lessons/${teacherId}`)
         }
+        // 都沒有，才可加入課程
         return Lesson.create({
           startTime,
           endTime,
@@ -118,6 +126,7 @@ const lessonControllers = {
         })
       })
       .then(() => {
+        // 課程預約成功，送出成功
         const lesson = { startTime, endTime }
         const lessonJsonString = JSON.stringify(lesson)
         req.flash('add_lesson_success', lessonJsonString)
