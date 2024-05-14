@@ -7,6 +7,7 @@ const userControllers = {
     const userId = Number(req.params?.id)
     if (userId !== req.user?.id) throw new Error('沒有權限看此資料!')
     Promise.all([
+      // 取得newLessons資料
       Lesson.findAll({
         include: [{
           model: Teacher,
@@ -24,6 +25,7 @@ const userControllers = {
         },
         order: [['createdAt', 'DESC']]
       }),
+      // 取得還未評分的老師資料
       Lesson.findAll({
         include: [
           {
@@ -43,6 +45,7 @@ const userControllers = {
           '$Ratings.teacher_id$': null
         }
       }),
+      // 取得排名資料
       Lesson.findAll({
         attributes: [
           'student_id',
@@ -78,6 +81,7 @@ const userControllers = {
             }
           ))
           : null
+        // 取得使用者的排名資料
         const getStudentRank = studentsLessonsRanks.find(lesson => lesson.student_id === userId)
         const studentRank = getStudentRank ? getStudentRank.toJSON() : null
         return res.render('user', { newLessons, lessonsWithoutRating, studentRank })
