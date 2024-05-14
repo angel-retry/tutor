@@ -44,6 +44,7 @@ const getStartTimeAndEndTime = (date, durationTime, startHour = 18, endHours = 2
       endTime: nextEndTime.toDate()
     })
 
+    // 目前開始時間變為下次結束時間，依序此規則繞出時間區間
     currentStartTime = nextEndTime
   }
 

@@ -27,11 +27,14 @@ const authenticated = (users) => {
       req.flash('error_messages', '沒有權限瀏覽!')
       return res.redirect('back')
     }
+
+    // 如果沒登入，導向登入頁
     req.flash('error_messages', '請先登入!')
     return res.redirect('/login')
   }
 }
 
+// 用文字變數定義各個身分
 const userAuthenticated = authenticated('user')
 const studentAuthenticated = authenticated('student')
 const teacherAuthenticated = authenticated('teacher')
