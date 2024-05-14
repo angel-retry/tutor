@@ -1,5 +1,6 @@
 const dayjs = require('dayjs')
 
+// 取得老師可以預約上課的日子
 const getTeacherAvailableDates = (days) => {
   const today = dayjs()
   // 未來兩周後的日子
@@ -19,17 +20,25 @@ const getTeacherAvailableDates = (days) => {
   return futureDates
 }
 
+// 取得老師可以上課日子的詳細時間
 const getStartTimeAndEndTime = (date, durationTime, startHour = 18, endHours = 21) => {
+  // 設定開始時間 18:00
   const startTime = dayjs(date).hour(startHour).minute(0).second(0)
+  // 設定結束時間 21:00
   const endTime = dayjs(date).hour(endHours).minute(0).second(0)
 
+  // 存放各個時間區間
   const timeSlots = []
 
+  // 宣告目前的開始時間
   let currentStartTime = startTime
 
+  // 如果目前的開始時間比結束還要早就進行以下迴圈程式
   while (currentStartTime.isBefore(endTime)) {
+    // 宣告下次結束時間
     const nextEndTime = currentStartTime.add(durationTime, 'minutes')
 
+    // 將時間區間放入陣列中
     timeSlots.push({
       startTime: currentStartTime.toDate(),
       endTime: nextEndTime.toDate()
