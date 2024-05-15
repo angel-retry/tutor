@@ -55,22 +55,26 @@ GOOGLE_CALLBACK_URL=
 ```
 npm install
 ```
-5. 完成安裝npm套件以後，輸入以下指令，載入種子專案。
+5. 完成安裝npm套件以後，輸入以下指令，載入資料庫檔案。
+```
+npm run migrate
+```
+6. 完成安裝npm套件以後，輸入以下指令，載入種子專案。
 ```
 npm run seed
 ```
-6. 載入種子專案完後，輸入以下指令，可啟動專案
+7. 載入種子專案完後，輸入以下指令，可啟動專案
 ```
 npm run dev
 ```
-7. 接下來會在terminal看到以下內容，代表伺服器建立成功。
+8. 接下來會在terminal看到以下內容，代表伺服器建立成功。
 ```
 [nodemon] restarting due to changes...
 [nodemon] restarting due to changes...
 [nodemon] starting `node app.js`
 Example app listening on http://localhost:3000
 ```
-7.現在可在Chrome進入[http://localhost:3000](http://localhost:3000) 開始使用此網站，可使用以下帳號登入。
+9.現在可在Chrome進入[http://localhost:3000](http://localhost:3000) 開始使用此網站，可使用以下帳號登入。
 - 前台帳號(可在Users資料庫查看哪些帳戶為學生、老師身分)
 ```
 email: user1@example.com
