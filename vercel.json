@@ -3,7 +3,13 @@
   "builds": [
     {
       "src": "./app.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "commands": {
+          "build": "npm run migrate && npm run seed && npm run build",
+          "start": "node app.js"
+        }
+      }
     }
   ],
   "routes": [
