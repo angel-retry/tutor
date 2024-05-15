@@ -3,12 +3,15 @@ const LocalStrategy = require('passport-local')
 const { User, Admin } = require('../models')
 const bcrypt = require('bcryptjs')
 const GoogleStrategy = require('passport-google-oauth2').Strategy
+const NODE_ENV = process.env.NODE_ENV || null
+
+const callbackURL = NODE_ENV === 'production' ? process.env.ONLINE_GOOGLE_CALLBACK_URL : process.env.GOOGLE_CALLBACK_URL
 
 // local策略
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL
+  callbackURL
 }, (accessToken, refreshToken, profile, cb) => {
   const email = profile.email
   const name = profile.displayName
