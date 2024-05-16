@@ -94,7 +94,10 @@ const teacherControllers = {
           }, { where: { id: teacher.id } }),
           Lesson.destroy({
             where: {
-              studentId: req.user.id
+              studentId: req.user.id,
+              startTime: {
+                [Op.gt]: new Date()
+              }
             }
           })
         ])
