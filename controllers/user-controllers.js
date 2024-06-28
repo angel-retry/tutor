@@ -1,4 +1,4 @@
-const localFileHandler = require('../helpers/file-helpers')
+const { imgurFileHandler } = require('../helpers/file-helpers')
 const { Lesson, Teacher, User, Rating, Sequelize } = require('../models')
 const { Op } = require('sequelize')
 
@@ -106,7 +106,7 @@ const userControllers = {
     if (!name) throw new Error('請填入姓名!')
 
     Promise.all([
-      localFileHandler(file),
+      imgurFileHandler(file),
       User.findByPk(userId)
     ])
       .then(([filePath, user]) => {

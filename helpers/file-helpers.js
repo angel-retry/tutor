@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { ImgurClient } = require('imgur')
 
 const localFileHandler = file => {
   return new Promise((resolve, reject) => {
@@ -13,4 +14,24 @@ const localFileHandler = file => {
   })
 }
 
-module.exports = localFileHandler
+const imgurFileHandler = file => {
+  return new Promise((resolve, reject) => {
+    if (!file) return resolve(null)
+    const client = new ImgurClient({
+      clientId: process.env.IMGUR_CLIENTID,
+      clientSecret: process.env.IMGUR_CLIENT_SECRET,
+      refreshToken: process.env.IMGUR_REFRESH_TOKEN
+    })
+    return client.upload({
+      image: fs.createReadStream(file.path),
+      type: 'stream'
+    })
+      .then(imagurData => resolve(imagurData.data.link))
+      .catch(err => reject(err))
+  })
+}
+
+module.exports = {
+  localFileHandler,
+  imgurFileHandler
+}

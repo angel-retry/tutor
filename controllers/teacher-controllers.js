@@ -1,4 +1,4 @@
-const localFileHandler = require('../helpers/file-helpers')
+const { imgurFileHandler } = require('../helpers/file-helpers')
 const { Teacher, User, Lesson, Rating, Sequelize } = require('../models')
 const { Op } = require('sequelize')
 
@@ -81,7 +81,7 @@ const teacherControllers = {
             availableDays: parsedAvailableDays,
             videoLink
           }),
-          localFileHandler(file)
+          imgurFileHandler(file)
         ])
       })
       .then(([teacher, filePath]) => {
@@ -130,7 +130,7 @@ const teacherControllers = {
             availableDays: parsedAvailableDays,
             videoLink
           }),
-          localFileHandler(file)
+          imgurFileHandler(file)
         ])
       })
       .then(([teacher, filePath]) => {
