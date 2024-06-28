@@ -46,11 +46,19 @@
           </li>
         {{/if}}
       </ul>
+      
+      <div class="ms-auto d-flex flex-row align-items-center gap-3">
       {{#if user}}
-      <form action="/logout" method="post" class="ms-auto">
-        <button class="btn btn-outline-danger" type="submit">Log out</button>
-      </form>
+        {{#if user.isTeacher}}
+          <p class="mb-0">hello ! {{user.name}} Teacher</p>
+        {{else}}
+          <p class="mb-0">hello ! {{user.name}} Classmate</p>
+        {{/if}}
+        <form action="/logout" method="post" class="">
+          <button class="btn btn-outline-danger" type="submit">Log out</button>
+        </form>
       {{/if}}
+      </div>
     </div>
   </div>
 </nav>
