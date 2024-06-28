@@ -14,6 +14,7 @@ const { getAddLessonMessage } = require('./helpers/add-lesson-helpers')
 
 app.engine('hbs', engine({ extname: 'hbs', helpers: handlebarsHelpers }))
 app.set('view engine', 'hbs')
+app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.static('public'))
 app.use('/upload', express.static(path.join(__dirname, 'upload')))
