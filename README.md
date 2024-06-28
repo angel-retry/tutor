@@ -2,7 +2,7 @@
 此網站為英文家教媒合平台，可讓家教老師和學生，提供線上的教育服務。該平台提供了註冊、登入、成為老師、瀏覽主頁、互動預約、個人頁面等功能，為用戶提供了便利的線上教育體驗。
 
 ## 網站連結
-[https://tutor-rjcn.onrender.com/](https://tutor-rjcn.onrender.com/)
+[https://tutor-red.vercel.app/login](https://tutor-red.vercel.app/login)
 
 ## Features - 產品功能
 ### 註冊/登入/登出
